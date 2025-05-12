@@ -132,20 +132,39 @@ a {
   color: var(--minColor);
   margin: 15px 0;
 }
+
+.gellary {
+  display: flex;
+  justify-content: start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+.gellary::-webkit-scrollbar {
+  display: none;
+}
+
+
 .tile {
-    height: 220px;
-    width: 120px;
-    display: flex;
-    flex-direction: column;
-    margin: 0 10px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 10px; /* Reduced from 16px */
-    position: relative;
-  }
-  
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  height: 220px;
+  width: 130px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+}
+
   /* Image container with strict height control */
   .tile img {
     height: 80px; /* Fixed height */
