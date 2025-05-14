@@ -50,79 +50,16 @@
     <img src="../static/iamges/arrow-left.svg" alt="" />
     </div> -->
 
-      <div class="tile center">
-    <img src="../static/iamges/Cluffy.jpg" />
-    <p class="productName">First Product</p>
-    <p class="productPrice">5000 tk</p>
+    {%for n in p %}
+        <div class="tile center">
+    <img src="{{n.pic}}" />
+    <p class="productName">{{n.name}}</p>
+    <p class="productPrice">{{n.price}}tk</p>
     <div class="AddTOCartBtn center">
         <p>Add to Cart</p>
     </div>
-    </div>
-    
-    <div class="tile center">
-      <img src="../static/iamges/Czoro.jpg" />
-      <p class="productName">second Product</p>
-      <p class="productPrice">3200 tk</p>
-      <div class="AddTOCartBtn center">
-          <p>Add to Cart</p>
-      </div>
-      </div>
-  
-
-      <div class="tile center">
-        <img src="../static/iamges/Cluffy.jpg" />
-        <p class="productName">First Product</p>
-        <p class="productPrice">5000 tk</p>
-        <div class="AddTOCartBtn center">
-            <p>Add to Cart</p>
-        </div>
-        </div>
-        
-        <div class="tile center">
-          <img src="../static/iamges/Czoro.jpg" />
-          <p class="productName">second Product</p>
-          <p class="productPrice">3200 tk</p>
-          <div class="AddTOCartBtn center">
-              <p>Add to Cart</p>
-          </div>
-          </div>
-  
-          <div class="tile center">
-            <img src="../static/iamges/Cluffy.jpg" />
-            <p class="productName">First Product</p>
-            <p class="productPrice">5000 tk</p>
-            <div class="AddTOCartBtn center">
-                <p>Add to Cart</p>
-            </div>
-            </div>
-            
-            <div class="tile center">
-              <img src="../static/iamges/Czoro.jpg" />
-              <p class="productName">second Product</p>
-              <p class="productPrice">3200 tk</p>
-              <div class="AddTOCartBtn center">
-                  <p>Add to Cart</p>
-              </div>
-              </div>
-  
-              <div class="tile center">
-                <img src="../static/iamges/Cluffy.jpg" />
-                <p class="productName">First Product</p>
-                <p class="productPrice">5000 tk</p>
-                <div class="AddTOCartBtn center">
-                    <p>Add to Cart</p>
-                </div>
-                </div>
-                
-                <div class="tile center">
-                  <img src="../static/iamges/Czoro.jpg" />
-                  <p class="productName">second Product</p>
-                  <p class="productPrice">3200 tk</p>
-                  <div class="AddTOCartBtn center">
-                      <p>Add to Cart</p>
-                  </div>
-                  </div>
-                          
+    </div>       
+    {%endfor%}    
       <!-- <div class="rightArrow">
     <img src="../static/iamges/arrow-right.svg" alt="" />
     </div> -->
@@ -189,5 +126,5 @@
     </div>
     <footer></footer>
   </body>
-  <!-- <script  src="../static/js/index.js"></script> -->
+  <script  src="../static/js/index.js"></script>
 </html>

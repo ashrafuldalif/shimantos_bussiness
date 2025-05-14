@@ -163,6 +163,7 @@ a {
   border-radius: 10px;
   padding: 10px;
   position: relative;
+  /* background-color: red; */
 }
 
   /* Image container with strict height control */
