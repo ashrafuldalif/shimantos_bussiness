@@ -10,12 +10,12 @@
   --basicFontSize: 16px;
 }
 @font-face {
-    font-family: 'for_heading';
-    src: url('../fonts/DancingScript-VariableFont_wght.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
-  }
-  
+  font-family: "for_heading";
+  src: url("../fonts/DancingScript-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -79,6 +79,20 @@ a {
   user-select: none;
   outline: none;
 }
+.cart-icon,
+.btnImgs {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 .hero_section {
   margin: 1.5rem 0;
   display: flex; /* Use flexbox for centering */
@@ -90,18 +104,17 @@ a {
 }
 
 .hero_heading {
-    font-family: for_heading;
+  font-family: for_heading;
   font-size: 60px;
   font-weight: 100;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  white-space: normal !important;  
-  padding:0 0.5rem;
+  white-space: normal !important;
+  padding: 0 0.5rem;
 }
 
 .hero_subline {
   font-size: 20px;
-  
 }
 .shop_button {
   height: 35px;
@@ -113,10 +126,10 @@ a {
   background-color: var(--highLight2);
   border-radius: 15px;
   text-align: center;
-  cursor: pointer; 
-  display: inline-block; 
+  cursor: pointer;
+  display: inline-block;
   user-select: none;
-  outline: none; 
+  outline: none;
 }
 /* .shop_button:hover{
     transform: scale(1.2);
@@ -134,6 +147,7 @@ a {
 }
 
 .gellary {
+  user-select: none;
   display: flex;
   justify-content: start;
   flex-wrap: nowrap;
@@ -141,13 +155,19 @@ a {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+.autoScrool {
   scroll-snap-type: x mandatory;
+}
+@keyframes Gauto {
+  100% {
+    transform: translateX(150px);
+  }
 }
 
 .gellary::-webkit-scrollbar {
   display: none;
 }
-
 
 .tile {
   scroll-snap-align: start;
@@ -163,82 +183,141 @@ a {
   border-radius: 10px;
   padding: 10px;
   position: relative;
+  /* animation: Gauto 2s ease-in-out 0.5s infinite forwards; */
   /* background-color: red; */
 }
 
-  /* Image container with strict height control */
-  .tile img {
-    height: 80px; /* Fixed height */
-    width: 100%; /* Full tile width */
-    object-fit: contain; /* No distortion */
-    margin-bottom: 5px;
-  }
-  
-  /* Text elements with fixed space allocation */
-  .productName {
-    font-size: 12px;
-    height: 30px; /* Fixed height */
-    margin: 3px 0;
-    overflow: hidden; /* Prevents text overflow */
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .productPrice {
-    font-size: 18px;
-    height: 20px; /* Fixed height */
-    text-align: center;
-    margin: 3px 0;
-  }
-  
-  .AddTOCartBtn{
-    height: 40px;
-    width: 100%;
-    font-size: 15px;
-    margin: 10px 0;
-    font-weight: 500;
+/* Image container with strict height control */
+.tile img {
+  height: 80px; /* Fixed height */
+  width: 100%; /* Full tile width */
+  object-fit: contain; /* No distortion */
+  margin-bottom: 5px;
+}
 
-    background-color: var(--highLight2);
-    border-radius: 15px;
-    text-align: center;
-    cursor: pointer; 
-    user-select: none;
-    outline: none; 
+/* Text elements with fixed space allocation */
+.productName {
+  font-size: 12px;
+  height: 30px; /* Fixed height */
+  margin: 3px 0;
+  overflow: hidden; /* Prevents text overflow */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.productPrice {
+  font-size: 18px;
+  height: 20px; /* Fixed height */
+  text-align: center;
+  margin: 3px 0;
+}
+
+.AddTOCartBtn {
+  height: 40px;
+  width: 100%;
+  font-size: 15px;
+  margin: 10px 0;
+  font-weight: 500;
+
+  background-color: var(--highLight2);
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
 }
 .WhyUs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .5rem;
-    margin-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: 10px;
 }
 
 .choseItem {
-    flex: 1 1 calc(50% - 0.5rem); /* 2 items per row with gap */
-    gap: 0.5rem;
-    
+  flex: 1 1 calc(50% - 0.5rem); /* 2 items per row with gap */
+  gap: 0.5rem;
 }
-.contact div > img.icons{
-    height: 20px !important;
+.contact div > img.icons {
+  height: 20px !important;
 }
 .contact {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 10px;
-    gap: 5px; /* Adds consistent spacing between items */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: fixed;
+  bottom: 1.5rem;
+  margin-left: 10px;
+  gap: 5px; /* Adds consistent spacing between items */
 }
 
 .contact div {
-    display: flex;
-    align-items: center; /* Vertically centers icon and text */
-    gap: 10px; /* Adds space between icon and text */
-    margin: 2.5px 0; /* Only vertical margin */
-    user-select: none;
-    cursor: pointer;
+  display: flex;
+  align-items: center; /* Vertically centers icon and text */
+  gap: 10px; /* Adds space between icon and text */
+  margin: 2.5px 0; /* Only vertical margin */
+  user-select: none;
+  cursor: pointer;
 }
-footer{
-    height: 5rem;
+footer {
+  height: 5rem;
+}
+.mycart {
+  display: none;
+  position: absolute;
+  right: 0;
+  /* right: -100%; */
+
+  top: 0;
+  background-color: #02040fe1;
+  border-bottom-left-radius: 10vw;
+  border-top-left-radius: 10vw;
+  height: 100vh;
+  width: 80vw;
+  z-index: 100;
+}
+
+#myCart.open {
+  /* right: 0; */
+  display: block;
+}
+
+.DScroll {
+  overflow: hidden;
+}
+
+.Pimage {
+  height: 40px;
+  width: auto;
+  margin: 2vh 3px 2vh 5vw;
+}
+.cart_heading {
+  font-family: for_heading;
+  display: flex;
+  align-items: center;
+
+  font-size: 40px;
+  margin: 1.5rem 3rem;
+}
+.cart_heading img {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.cart_items {
+  border-bottom: 1px solid white;
+}
+.citem {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid white;
+  /* border-bottom: 1px solid white; */
+  width: 100%;
+  font-size: 11px;
+}
+
+.del {
+  height: 20px;
+  margin-right: 10px;
 }

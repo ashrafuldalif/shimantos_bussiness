@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const gallery = document.getElementById("gallery");
   const tiles = Array.from(gallery.children);
 
-  // Clone after and before
-  tiles.forEach(tile => {
+  // Clone after (normal order)
+  tiles.forEach((tile) => {
     gallery.appendChild(tile.cloneNode(true));
   });
-  [...tiles].reverse().forEach(tile => {
+
+  // Clone before (reverse order)
+  [...tiles].reverse().forEach((tile) => {
     gallery.insertBefore(tile.cloneNode(true), gallery.firstChild);
   });
 
@@ -16,16 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gallery.scrollLeft = middlePosition;
 
-  // Loop fix
+  // Reset if too far left or right
   gallery.addEventListener("scroll", () => {
     if (gallery.scrollLeft <= tileWidth) {
       gallery.scrollLeft += totalTiles * tileWidth;
-    } else if (gallery.scrollLeft >= gallery.scrollWidth - gallery.offsetWidth - tileWidth) {
+    } else if (
+      gallery.scrollLeft >=
+      gallery.scrollWidth - gallery.offsetWidth - tileWidth
+    ) {
       gallery.scrollLeft -= totalTiles * tileWidth;
     }
   });
 
-  // Drag/touch handling
+  // Drag and touch support (same as before)
   let isDown = false;
   let startX;
   let scrollLeftStart;
@@ -35,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     startX = e.pageX;
     scrollLeftStart = gallery.scrollLeft;
   });
-  gallery.addEventListener("mouseleave", () => isDown = false);
-  gallery.addEventListener("mouseup", () => isDown = false);
+  gallery.addEventListener("mouseleave", () => (isDown = false));
+  gallery.addEventListener("mouseup", () => (isDown = false));
   gallery.addEventListener("mousemove", (e) => {
     if (!isDown) return;
     e.preventDefault();
@@ -49,36 +54,47 @@ document.addEventListener("DOMContentLoaded", () => {
     startX = e.touches[0].pageX;
     scrollLeftStart = gallery.scrollLeft;
   });
-  gallery.addEventListener("touchend", () => isDown = false);
+  gallery.addEventListener("touchend", () => (isDown = false));
   gallery.addEventListener("touchmove", (e) => {
     if (!isDown) return;
     const walk = (e.touches[0].pageX - startX) * 2;
     gallery.scrollLeft = scrollLeftStart - walk;
   });
+});
 
-  // ✅ Auto-scroll (smooth, slow, infinite)
-  let autoScroll;
-  function startAutoScroll() {
-    autoScroll = setInterval(() => {
-      if (!isDown) {
-        gallery.scrollLeft += 0.5; // Speed control
-      }
-      if (gallery.scrollLeft >= gallery.scrollWidth - gallery.offsetWidth - tileWidth) {
-        gallery.scrollLeft -= totalTiles * tileWidth;
-      }
-    }, 16); // ~60fps
+function toggleCart() {
+  const cart = document.getElementById("myCart");
+  cart.classList.toggle("open");
+  document.body.classList.toggle("DScroll");
+}
+
+// Open cart when clicking the cart button
+const cartBtn = document.getElementById("cartBtn");
+cartBtn.addEventListener("click", toggleCart);
+
+// Close cart when clicking outside OR on CloseCart button
+document.addEventListener("click", function (event) {
+  const cart = document.getElementById("myCart");
+  const closeCart = document.getElementById("CloseCart");
+
+  const isClickInsideCart = cart.contains(event.target);
+  const isClickOnCartBtn =
+    event.target === cartBtn || cartBtn.contains(event.target);
+  const isClickOnCloseBtn =
+    closeCart &&
+    (event.target === closeCart || closeCart.contains(event.target));
+
+  if ((!isClickInsideCart && !isClickOnCartBtn) || isClickOnCloseBtn) {
+    if (cart.classList.contains("open")) {
+      toggleCart(); // Close cart
+    }
   }
+});
+const navItems = document.querySelectorAll(".nav_items");
 
-  function stopAutoScroll() {
-    clearInterval(autoScroll);
-  }
-
-  gallery.addEventListener("mouseenter", stopAutoScroll);
-  gallery.addEventListener("mouseleave", startAutoScroll);
-  gallery.addEventListener("mousedown", stopAutoScroll);
-  gallery.addEventListener("mouseup", startAutoScroll);
-  gallery.addEventListener("touchstart", stopAutoScroll);
-  gallery.addEventListener("touchend", startAutoScroll);
-
-  startAutoScroll(); // ✅ Start auto-scroll
+navItems.forEach((item) => {
+  item.addEventListener("click", (e) => {
+    navItems.forEach((i) => i.classList.remove("select")); // remove from all
+    e.currentTarget.classList.add("select"); // add to clicked
+  });
 });

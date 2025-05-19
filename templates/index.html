@@ -1,130 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart"
-    />
-    <!-- <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    /> -->
+{% extends "base.html" %} {%block CssFile%} {{ url_for('static',
+filename='css/style.css') }} {% endblock %} {% block content%}
+<div class="hero_section">
+  <p class="hero_heading">Main heading here ola</p>
+  <p class="hero_subline">subline text here avara ka davra</p>
+  <a href="">
+    <div class="shop_button center"><p>Shop Now</p></div>
+  </a>
+</div>
 
-    <title>Void</title>
-  </head>
-  <body>
-    <nav>
-      <div class="top right">
-        <div class="users DF">
-          <p class="user_name">Ashraful D alif</p>
-          <img src="../static/iamges/userIcon.svg" alt="" class="icons" />
-        </div>
-      </div>
-      <div class="bottom DF">
-        <div class="logo left">
-          <img src="../static/iamges/demoLogo.jpg" alt="" class="logo" />
-        </div>
-        <div class="right DF">
-          <p class="nav_items select">Shop</p>
-          <p class="nav_items">About</p>
-          <p class="nav_items">Contact</p>
-          <img src="../static/iamges/Basket_alt_3_light.svg" class="icons" />
-        </div>
-      </div>
-    </nav>
-
-    <div class="hero_section">
-      <p class="hero_heading">Main heading here ola</p>
-      <p class="hero_subline">subline text here avara ka davra</p>
-      <a href="">
-        <div class="shop_button center"><p>Shop Now</p></div>
-      </a>
-    </div>
-
-    <p class="identity">OUR PRODUCTS</p>
-    <div class="gellary DF center" id="gallery">
-      <!-- <div class="leftArrow">
+<p class="identity">OUR PRODUCTS</p>
+<div class="gellary autoScrool DF center" id="gallery">
+  <!-- <div class="leftArrow">
     <img src="../static/iamges/arrow-left.svg" alt="" />
     </div> -->
 
-    {%for n in p %}
-        <div class="tile center">
+  {%for n in p %}
+  <div class="tile center">
     <img src="{{n.pic}}" />
     <p class="productName">{{n.name}}</p>
     <p class="productPrice">{{n.price}}tk</p>
     <div class="AddTOCartBtn center">
-        <p>Add to Cart</p>
+      <p>Add to Cart</p>
     </div>
-    </div>       
-    {%endfor%}    
-      <!-- <div class="rightArrow">
+  </div>
+  {%endfor%}
+  <!-- <div class="rightArrow">
     <img src="../static/iamges/arrow-right.svg" alt="" />
     </div> -->
-    </div>
+</div>
 
-    <p class="identity">WHY CHOOSE US</p>
-    <div class="WhyUs DF">
-      <div class="choseItem DF">
-        <img src="../static/iamges/underwear.svg" alt="" class="icons" />
-        <p>Comfort fit</p>
-      </div>
-      <div class="choseItem DF">
-        <img src="../static/iamges/textile.svg" alt="" class="icons" />
-        <p>
-          Premium <br />
-          Febric
-        </p>
-      </div>
-      <br />
-      <div class="choseItem DF">
-        <img src="../static/iamges/package.svg" alt="" class="icons" />
-        <p>
-          Discreet <br />
-          Packaging
-        </p>
-      </div>
-      <div class="choseItem DF">
-        <img
-          src="../static/iamges/delivery_truck_speed.svg"
-          alt=""
-          class="icons"
-        />
+<p class="identity">WHY CHOOSE US</p>
+<div class="WhyUs DF">
+  <div class="choseItem DF">
+    <img src="../static/iamges/underwear.svg" class="icons" />
+    <p>Comfort fit</p>
+  </div>
+  <div class="choseItem DF">
+    <img src="../static/iamges/textile.svg" class="icons" />
 
-        <p>Fast Delivery</p>
-      </div>
-    </div>
+    <p>
+      Premium <br />
+      Febric
+    </p>
+  </div>
+  <br />
+  <div class="choseItem DF">
+    <img src="../static/iamges/package.svg" class="icons" />
 
-    <p class="identity">ABOUT VOID</p>
-    <div class="about">
-      <p></p>
-      <p></p>
-      <p></p>
-    </div>
+    <p>
+      Discreet <br />
+      Packaging
+    </p>
+  </div>
+  <div class="choseItem DF">
+    <img src="../static/iamges/delivery_truck_speed.svg" class="icons" />
+    <p>Fast Delivery</p>
+  </div>
+</div>
 
-    <p class="identity">CONTACT US</p>
-    <div class="contact DF">
-      <div>
-        <img src="../static/iamges/email.svg" class="icons" />
-        <a href="mailto:ashrafulalif26@gmail.com">ashrafulalif26@gmail.com</a>
-      </div>
-      <div>
-        <img src="../static/iamges/phone.svg" class="icons" />
-        <a href="tel:+8801601614334">01601614334</a>
-      </div>
-      <div>
-        <img src="../static/iamges/pin.svg" class="icons" />
-        <a
-          href="https://maps.google.com/?q=Sadar+Hospital+Road,Munshigonj,Dhaka,Bangladesh"
-          target="_blank"
-        >
-          Sadar Hospital Road, Munshigonj, Dhaka, Bangladesh
-        </a>
-      </div>
-    </div>
-    <footer></footer>
-  </body>
-  <script  src="../static/js/index.js"></script>
-</html>
+<p class="identity">ABOUT VOID</p>
+<div class="about">
+  <p></p>
+  <p></p>
+  <p></p>
+</div>
+{% endblock %} {%block cartContent%}
+<div class="citem DF">
+  <img src="../static/iamges/Cluffy.jpg" class="Pimage" />
+
+  <div class="texts">
+    <p class="CIname">Name: Monkey D luffy</p>
+    <p class="Ctk">Price: 5000 tk</p>
+    <p class="ID">Product ID : 23100122</p>
+  </div>
+  <button class="btnImgs">
+    <img src="../static/iamges/delete.svg" alt="" class="del" />
+  </button>
+</div>
+{% endblock %}
+<!--  my cart section  -->
+{% block addJS%}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="../static/css/style.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart"
+    />
+
+    <link rel="stylesheet" href="{% block CssFile %}{% endblock %}" />
+    <link rel="stylesheet" href="{% block CssFile2 %}{% endblock %}" />
+    <link rel="stylesheet" href="{% block CssFile3 %}{% endblock %}" />
+
+    <title>Void</title>
+  </head>
+  <body>
+    <nav>
+      <div class="top right">
+        <div class="users DF">
+          <p class="user_name btnImgs">Ashraful D alif</p>
+          <button class="btnImgs">
+            <img src="../static/iamges/userIcon.svg" alt="" class="icons" />
+          </button>
+        </div>
+      </div>
+      <div class="bottom DF">
+        <div class="logo left">
+          <a href="{{ url_for('home') }}">
+            <img src="../static/iamges/demoLogo.jpg" alt="" class="logo" />
+          </a>
+        </div>
+        <div class="right DF">
+          <!-- <a href="./shop.html" class="nav_items">Shop</a> -->
+          <a
+            href="{{ url_for('home') }}"
+            class="nav_items {% if request.endpoint == 'home' %}select{% endif %}"
+            >Home</a
+          >
+          <a
+            href="{{ url_for('shop') }}"
+            class="nav_items {% if request.endpoint == 'shop' %}select{% endif %}"
+            >Shop</a
+          >
+          <a
+            href="#contact"
+            class="nav_items {% if request.path == '/#contact' %}select{% endif %}"
+            >Contact</a
+          >
+
+          <button class="cart-icon" id="cartBtn">
+            <img src="../static/iamges/Basket_alt_3_light.svg" class="icons" />
+          </button>
+        </div>
+      </div>
+    </nav>
+    {% block content %} {% endblock %}
+
+    <p class="identity" id="contact">CONTACT US</p>
+    <div class="contact DF">
+      <div>
+        <img src="../static/iamges/email.svg" class="icons" />
+        <a href="mailto:ashrafulalif26@gmail.com">ashrafulalif26@gmail.com</a>
+      </div>
+      <div>
+        <img src="../static/iamges/phone.svg" class="icons" />
+        <a href="tel:+8801601614334">01601614334</a>
+      </div>
+      <div>
+        <img src="../static/iamges/pin.svg" class="icons" />
+        <a
+          href="https://maps.google.com/?q=Sadar+Hospital+Road,Munshigonj,Dhaka,Bangladesh"
+          target="_blank"
+        >
+          Sadar Hospital Road, Munshigonj, Dhaka, Bangladesh
+        </a>
+      </div>
+    </div>
+
+    <!--  my cart section  -->
+
+    <div class="mycart" id="myCart">
+      <div class="cart_heading">
+        <p>My Cart</p>
+        <button id="CloseCart" class="btnImgs">
+          <img src="../static/iamges/cros.svg" />
+        </button>
+      </div>
+      <div class="cart_items DF">{% block cartContent %} {% endblock %}</div>
+    </div>
+    <footer></footer>
+  </body>
+  {% block addJS %} {% endblock %}
+</html>
