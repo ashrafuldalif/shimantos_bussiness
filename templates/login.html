@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <title>Login To VOID</title>
+</head>
+<body>
+    
+
+    <div class="login-container">
+        <h1>User Registration</h1>
+        <form id="registrationForm">
+            <div class="form-group">
+                
+                <input type="text" id="name" name="name" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="phone" placeholder="Phone Number" name="phone" required>
+            </div>
+            <div class="form-group">
+                
+                <textarea id="address" name="address" placeholder="Address" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Gmail" name="email" required>
+            </div>
+            <button type="submit">
+                Register
+            </button>
+        </form>
+    </div>
+</body>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const email = document.getElementById('email').value;
+            
+            // Simple validation for Gmail
+            if (!email.endsWith('@gmail.com')) {
+                alert('Please enter a valid Gmail address');
+                return;
+            }
+            
+            // Here you would typically send the data to a server
+            console.log('Registration Data:', { name, phone, address, email });
+            alert('Registration successful! (This is a demo)');
+            
+            // Reset form
+            this.reset();
+        });
+        </script>
+
+
+</html>
