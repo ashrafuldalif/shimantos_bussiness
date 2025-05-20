@@ -1,8 +1,9 @@
 :root {
-  --backGroundClr: #272727;
+  --backGroundClr: #272727d6;
   --basicTxtColor: white;
   --highLight: orange;
   --highLight2: rgb(233, 166, 41);
+  --boxClrs: rgba(0, 0, 0, 0.346);
   --minColor: rgb(151, 151, 151);
 
   --basicFont: "Calibri", sans-serif;
@@ -15,33 +16,37 @@
   font-weight: 100;
   font-style: normal;
 }
-
+* {
+  font-family: var(--basicFont);
+  color: #ffffff;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+}
 body {
   font-family: var(--basicFont);
   background-color: var(--backGroundClr);
   margin: 0;
   padding: 20px;
-  color: #ffffff;
 }
 .profile-container {
+  border: 1px solid rgba(255, 255, 255, 0.496);
+  background: rgba(14, 9, 6, 0.5); /* Semi-transparent dark base */
+  backdrop-filter: blur(6px); /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(6px); /* Safari support */
+
   max-width: 800px;
   margin: 0 auto;
-  background: var(--backGroundClr);
+  /* background: var(--backGroundClr); */
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.397);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.589);
   overflow: hidden;
 }
 .profile-header {
-  background: #e9a632;
-  background: linear-gradient(
-    132deg,
-    rgb(204, 144, 41) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  /* color: white; */
-  padding: 30px;
+  padding: 2rem;
+  word-break: break-all;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   letter-spacing: 3px;
   font-family: var(--basicFont);
 }
@@ -54,6 +59,7 @@ body {
 }
 label {
   display: block;
+  color: var(--highLight2);
   margin-bottom: 10px;
   font-weight: 500;
   letter-spacing: 3px;
@@ -62,7 +68,7 @@ input,
 textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd5e;
   border-radius: 6px;
   font-size: 16px;
   transition: border 0.3s;
@@ -73,11 +79,12 @@ textarea:focus {
   outline: none;
 }
 .editable {
-  background-color: #cec00000;
+  background-color: transparent;
+  backdrop-filter:blur(10px) ;
   /* color: white; */
 }
 .edit-btn {
-  background-color: var(--highLight);
+  background-color:rgb(70, 144, 255);
   /* color: white; */
   border: none;
   padding: 10px 20px;
@@ -88,7 +95,7 @@ textarea:focus {
   transition: background 0.3s;
 }
 .edit-btn:hover {
-  background-color: var(--highLight);
+  background-color: rgb(27, 118, 255);
 }
 .save-btn {
   background-color: #4caf50;
@@ -98,11 +105,11 @@ textarea:focus {
   margin-top: 40px;
 }
 .order-item {
-  border: 1px solid #36454f;
+  border: 1px solid #c2c2c2c8;
   border-radius: 6px;
   padding: 15px;
   margin-bottom: 15px;
-  background: #36454f;
+  background: #131d1e5f;
 }
 .order-item h4 {
   margin-top: 0;

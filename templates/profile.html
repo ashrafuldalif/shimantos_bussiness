@@ -4,12 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/css/profile.css" />
+    <link rel="stylesheet" href="../static/css/bgSliding.css" />
     <title>User Profile</title>
   </head>
   <body>
+    <div class="bg">
+      <img src="../static/iamges/mangabg1.jpg" />
+      <img src="../static/iamges/mangabg2.jpg" />
+      <img src="../static/iamges/mangabg3.jpg" />
+      <img src="../static/iamges/mangabg4.jpg" />
+      <img src="../static/iamges/mangabg5.jpg" />
+      <img src="../static/iamges/mangabg6.jpg" />
+      <img src="../static/iamges/mangabg7.jpg" />
+    </div>
     <div class="profile-container">
       <div class="profile-header">
-
         <h1 id="userName">John Doe</h1>
         <p id="userEmail">john.doe@example.com</p>
       </div>
@@ -90,7 +99,7 @@
       editBtn.addEventListener("click", () => {
         editableFields.forEach((field) => {
           field.readOnly = false;
-          field.style.backgroundColor = "#fff";
+          field.style.backgroundColor = "rgba(0, 0, 0, 0.37)";
         });
         editBtn.style.display = "none";
         saveBtn.style.display = "inline-block";
@@ -99,7 +108,7 @@
       saveBtn.addEventListener("click", () => {
         editableFields.forEach((field) => {
           field.readOnly = true;
-          field.style.backgroundColor = "#f9f9f9";
+          field.style.backgroundColor = "transparent";
 
           // Update displayed values in header
           if (field.id === "name") {

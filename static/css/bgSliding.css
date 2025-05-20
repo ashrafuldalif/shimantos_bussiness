@@ -1,0 +1,40 @@
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Places it behind content */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.bg img {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0.5);
+  object-fit: cover; /* Ensures image covers entire viewport */
+  opacity: 0.3; /* Adjust opacity (0.3 = 30% visibility) */
+  animation: slide 55s linear infinite; /* Slow sliding (60s per cycle) */
+  animation-delay: 0;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  } /* Move left by image width */
+}
+
+/* Optional: Blur effect for better readability */
+.bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(1px), brightness(10%); /* Slight blur for contrast */
+}
