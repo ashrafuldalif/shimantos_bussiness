@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/profile.css" />
+    <title>User Profile</title>
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="profile-header">
+
+        <h1 id="userName">John Doe</h1>
+        <p id="userEmail">john.doe@example.com</p>
+      </div>
+
+      <div class="profile-body">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            class="editable"
+            value="John Doe"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            class="editable"
+            value="+1 (555) 123-4567"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            class="editable"
+            value="john.doe@example.com"
+            readonly
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Shipping Address</label>
+          <textarea id="address" class="editable" rows="3" readonly>
+123 Main St, Apt 4B, New York, NY 10001</textarea
+          >
+        </div>
+
+        <button id="editBtn" class="edit-btn">Edit Profile</button>
+        <button id="saveBtn" class="edit-btn save-btn">Save Changes</button>
+
+        <div class="order-history">
+          <h2>Order History</h2>
+
+          <div class="order-item">
+            <h4>Premium Wireless Headphones</h4>
+            <div class="order-meta">
+              <span>Order #12345</span>
+              <span>Delivered: Jan 15, 2023</span>
+            </div>
+            <p>Quantity: 1 | Total: $199.99</p>
+          </div>
+
+          <div class="order-item">
+            <h4>Smart Watch Series 5</h4>
+            <div class="order-meta">
+              <span>Order #12344</span>
+              <span>Delivered: Dec 22, 2022</span>
+            </div>
+            <p>Quantity: 1 | Total: $299.99</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const editBtn = document.getElementById("editBtn");
+      const saveBtn = document.getElementById("saveBtn");
+      const editableFields = document.querySelectorAll(".editable");
+
+      editBtn.addEventListener("click", () => {
+        editableFields.forEach((field) => {
+          field.readOnly = false;
+          field.style.backgroundColor = "#fff";
+        });
+        editBtn.style.display = "none";
+        saveBtn.style.display = "inline-block";
+      });
+
+      saveBtn.addEventListener("click", () => {
+        editableFields.forEach((field) => {
+          field.readOnly = true;
+          field.style.backgroundColor = "#f9f9f9";
+
+          // Update displayed values in header
+          if (field.id === "name") {
+            document.getElementById("userName").textContent = field.value;
+          }
+          if (field.id === "email") {
+            document.getElementById("userEmail").textContent = field.value;
+          }
+        });
+        saveBtn.style.display = "none";
+        editBtn.style.display = "inline-block";
+        alert("Profile updated successfully!");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+:root {
+  --backGroundClr: #272727;
+  --basicTxtColor: white;
+  --highLight: orange;
+  --highLight2: rgb(233, 166, 41);
+  --minColor: rgb(151, 151, 151);
+
+  --basicFont: "Calibri", sans-serif;
+  --baiscFontWeight: 350;
+  --basicFontSize: 16px;
+}
+@font-face {
+  font-family: "for_heading";
+  src: url("../fonts/DancingScript-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+body {
+  font-family: var(--basicFont);
+  background-color: var(--backGroundClr);
+  margin: 0;
+  padding: 20px;
+  color: #ffffff;
+}
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--backGroundClr);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.397);
+  overflow: hidden;
+}
+.profile-header {
+  background: #e9a632;
+  background: linear-gradient(
+    132deg,
+    rgb(204, 144, 41) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  /* color: white; */
+  padding: 30px;
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  font-family: var(--basicFont);
+}
+
+.profile-body {
+  padding: 30px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border 0.3s;
+}
+input:focus,
+textarea:focus {
+  border-color: var(--highLight);
+  outline: none;
+}
+.editable {
+  background-color: #cec00000;
+  /* color: white; */
+}
+.edit-btn {
+  background-color: var(--highLight);
+  /* color: white; */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+.edit-btn:hover {
+  background-color: var(--highLight);
+}
+.save-btn {
+  background-color: #4caf50;
+  display: none;
+}
+.order-history {
+  margin-top: 40px;
+}
+.order-item {
+  border: 1px solid #36454f;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #36454f;
+}
+.order-item h4 {
+  margin-top: 0;
+  color: var(--highLight2);
+}
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #eee;
+  font-size: 14px;
+}
