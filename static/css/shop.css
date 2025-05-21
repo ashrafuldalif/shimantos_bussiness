@@ -1,0 +1,63 @@
+:root {
+  --backGroundClr: #272727;
+  --basicTxtColor: white;
+  --highLight: orange;
+  --highLight2: rgb(233, 166, 41);
+  --minColor: rgb(151, 151, 151);
+
+  --basicFont: "Calibri", sans-serif;
+  --baiscFontWeight: 350;
+  --basicFontSize: 16px;
+}
+
+.f2{
+    color: red;
+    font-weight: 400;
+    font-size: 2.5rem;
+    margin: 2rem 0 0.5rem 1rem;
+}
+
+
+
+.gellary{
+    scroll-snap-type: x mandatory;
+    overflow-x:auto ;
+}
+.gellary > * {
+    scroll-snap-align: start;      /* Snaps to the start of each item */
+    min-width: 130px;              /* Each item is exactly 300px wide */
+    flex: 0 0 auto;                /* Prevents flex items from shrinking/growing */
+}
+.tile{
+    height: fit-content;
+}
+.tile img{
+    height: 100px;
+}
+.productPrice{
+    color: var(--highLight);
+}
+
+
+
+/* Grid Layout (Hidden by Default) */
+.grid-mode {
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+    overflow-x: visible;
+    gap: 10px;
+}
+
+/* Toggle Button Styling */
+.toggle-layout-btn {
+    position: relative;
+    top: 10px;
+    right: 10px;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 10;
+}

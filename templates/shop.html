@@ -1,15 +1,86 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
+
 {%block CssFile%} 
-
 {{ url_for('static', filename='css/style.css') }}
+{% endblock %}
 
+{%block CssFile2%} 
+{{ url_for('static', filename='css/shop.css') }}
 {% endblock %}
 
 {% block content%}
+<div class="hero_section">
+  <p class="hero_heading">Main heading here ola</p>
+  <p class="hero_subline">subline text here avara ka davra</p>
+
+</div>
+<h1 class="hero_heading f2">MEN</h1>
+
+<div class="gallery-container">
+    <button class="toggle-layout-btn">Toggle Layout</button>
 
 
+<div class="gellary grid-mode DF center" >
+    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>
+        <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>    <div class="tile center">
+        <img src="../static/iamges/Cluffy.jpg" />
+        <p class="productName">Monkey D Luffy</p>
+        <p class="productPrice">300M tk</p>
+        
+    </div>
+</div>
+</div>
+<h1 class="hero_heading f2">WOMEN</h1>
 {% endblock %}
 
 {% block addJS%}
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script>
+    document.querySelectorAll('.toggle-layout-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const gallery = e.target.closest('.gallery-container').querySelector('.gellary');
+        gallery.classList.toggle('grid-mode');
+    });
+});
+</script>
 {% endblock %}

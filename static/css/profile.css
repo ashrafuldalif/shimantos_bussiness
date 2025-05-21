@@ -23,6 +23,14 @@
   padding: 0;
   border: 0;
 }
+a{
+  all:unset;
+  transition: all 0.5s ease-in-out;
+}
+a:hover{
+  transform: scale(1.2);
+  color: white;
+}
 body {
   font-family: var(--basicFont);
   background-color: var(--backGroundClr);
@@ -36,7 +44,7 @@ body {
   -webkit-backdrop-filter: blur(6px); /* Safari support */
 
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto;
   /* background: var(--backGroundClr); */
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.589);
@@ -72,6 +80,15 @@ textarea {
   border-radius: 6px;
   font-size: 16px;
   transition: border 0.3s;
+}
+.HomeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: var(--highLight);
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
 }
 input:focus,
 textarea:focus {
