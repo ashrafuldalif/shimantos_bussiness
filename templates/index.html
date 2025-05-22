@@ -9,13 +9,14 @@ filename='css/style.css') }} {% endblock %} {% block content%}
 </div>
 
 <p class="identity">OUR PRODUCTS</p>
-<div class="gellary autoScrool DF center" id="gallery">
+<div class="gellary DF center" id="gallery">
   <!-- <div class="leftArrow">
     <img src="../static/iamges/arrow-left.svg" alt="" />
     </div> -->
 
   {%for n in p %}
-  <div class="tile center">
+
+  <div href="../templates/product.html" class="tile center">
     <img src="{{n.pic}}" />
     <p class="productName">{{n.name}}</p>
     <p class="productPrice">{{n.price}}tk</p>
@@ -80,6 +81,4 @@ filename='css/style.css') }} {% endblock %} {% block content%}
 </div>
 {% endblock %}
 <!--  my cart section  -->
-{% block addJS%}
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
-{% endblock %}
+

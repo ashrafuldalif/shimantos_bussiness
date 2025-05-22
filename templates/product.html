@@ -1,0 +1,147 @@
+{% extends "base.html" %} 
+{%block CssFile%} 
+{{ url_for('static',filename='css/style.css') }} 
+{% endblock %} 
+{%block CssFile2%} 
+{{ url_for('static',filename='css/product.css') }} 
+{% endblock %} 
+{% block content%}
+<h1 class="Pname">ONE PIECE</h1>
+<div class="productView">
+    <div class="bigView">
+        <img src="../static/iamges/luffy.jpg" alt="">
+    </div>
+    <div class="images viewPimages">
+        <div class="image-container">
+            <img src="../static/iamges/Cluffy.jpg" >
+        </div>
+        <div class="image-container">
+            <img src="../static/iamges/czoro.jpg" >
+        </div>
+        <div class="image-container">
+            <img src="../static/iamges/jimbe.jpg" >
+        </div>
+        <div class="image-container">
+            <img src="../static/iamges/brook.jpg" >
+        </div>
+        <div class="image-container">
+            <img src="../static/iamges/nami.jpg" >
+        </div>
+        <div class="image-container">
+            <img src="../static/iamges/robin.jpg" >
+        </div>
+
+    </div>
+</div>
+<p class="identity">About this Product</p>
+<div class="aboutProduct">
+    <p> <span class="keys"> Name </span>  <span class="Values"> Monkey D luffy</span></p>
+    <p> <span class="keys"> age </span>  <span class="Values"> 21</span></p>
+    <p> <span class="keys"> dont know </span>  <span class="Values"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae, tenetur! Aperiam voluptatibus deleniti veniam?</span></p>
+    <p> <span class="keys"> hudai</span> <span class="Values"> Lorem ipsum dolor sit amet.</span></p>
+    <p> <span class="keys"> jani na </span>  <span class="Values"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet rem eaque soluta vitae, provident corporis tenetur necessitatibus saepe ipsa.</span></p>
+</div>
+<p class="identity">Select Size</p>
+<form action="" class=" center FDC">
+<div class="radio-button-group center">
+
+    <label class="radio-button">
+      <input type="radio" name="option" value="Small" checked>
+      <span>Small</span>
+    </label>
+    <label class="radio-button">
+      <input type="radio" name="option" value="Mid">
+      <span >Mid</span>
+    </label>
+    <label class="radio-button">
+      <input type="radio" name="option" value="Large">
+      <span>Large</span>
+    </label>
+    <div class="highlight"></div>
+  
+  </div>
+
+<div class="quantity-selector ">
+  <p class="quantity-label">Quantity :</p>
+  <div class="quantity-input-wrapper">
+    <input type="number" min="1" value="1" class="quantity-input" id="quantity">
+    <div class="quantity-controls">
+      <button type="button" class="quantity-btn increment">+</button>
+      <button type="button" class="quantity-btn decrement">-</button>
+    </div>
+  </div>
+</div>
+<pre class="tc DF"> <br>Total Cost : 12000</pre>
+<div class="btnsDiv ">
+      <button onclick="" class="cartBtn btnImgs">Add To Cart</button>
+      <pre>--- OR ---</pre>
+      <button type="submit" class="btnImgs">Buy Now</button>
+    </div>
+  
+</form>
+
+{% endblock %}
+{% block addJS%}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const thumbnails = document.querySelectorAll('.viewPimages img');
+        const bigImage = document.querySelector('.bigView img');
+        
+        // Add click event to each thumbnail
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                // Change the big image source to the clicked thumbnail's source
+                bigImage.src = this.src;
+                
+                // Optional: Add active class to highlight selected thumbnail
+                thumbnails.forEach(img => img.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+
+
+  const quantityInput = document.getElementById('quantity');
+  const incrementBtn = document.querySelector('.increment');
+  const decrementBtn = document.querySelector('.decrement');
+
+  incrementBtn.addEventListener('click', function() {
+
+    quantityInput.stepUp();
+  });
+
+  decrementBtn.addEventListener('click', function() {
+
+
+    if (quantityInput.value > 1) {  // Prevent going below 1
+      quantityInput.stepDown();
+    }
+  });
+
+});
+
+
+    const buttons = document.querySelectorAll('.radio-button');
+const highlight = document.querySelector('.highlight');
+
+function updateHighlight() {
+  const checkedButton = document.querySelector('.radio-button input:checked');
+  if (checkedButton) {
+    const button = checkedButton.parentElement;
+    highlight.style.width = `${button.offsetWidth}px`;
+    highlight.style.left = `${button.offsetLeft}px`;
+  }
+}
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Wait for the :checked state to update
+    setTimeout(updateHighlight, 10);
+  });
+});
+
+// Initialize highlight position
+updateHighlight();
+</script>
+{% endblock %}

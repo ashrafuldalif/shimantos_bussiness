@@ -25,6 +25,9 @@ def login():
 @app.route("/profile")
 def profile():
     return render_template("profile.html")
+@app.route("/product")
+def product():
+    return render_template("product.html")
 
 app.run(host="0.0.0.0", port=5000, debug=True)
 # app.run(debug=True)

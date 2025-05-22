@@ -98,3 +98,51 @@ navItems.forEach((item) => {
     e.currentTarget.classList.add("select"); // add to clicked
   });
 });
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const nav = document.querySelector('.smart-nav');
+  let lastScroll = 0;
+  let startY;
+  
+  // Show nav by default at page top
+  if (window.scrollY <= 10) {
+    nav.classList.add('visible');
+  }
+  
+  // Rest of your existing code...
+  document.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+  });
+  
+  document.addEventListener('touchmove', function(e) {
+    const currentY = e.touches[0].clientY;
+    const deltaY = startY - currentY;
+    
+    if (deltaY > 5 && window.scrollY > 10) {
+      nav.classList.add('visible');
+    }
+  });
+  
+  window.addEventListener('scroll', function() {
+    const currentScroll = window.scrollY;
+    
+    // Always show when at very top
+    if (currentScroll <= 10) {
+      nav.classList.add('visible');
+    }
+    // Rest of existing scroll logic
+    else if (currentScroll > lastScroll && currentScroll > 50) {
+      nav.classList.remove('visible');
+    }
+    else if (currentScroll < lastScroll) {
+      nav.classList.add('visible');
+    }
+    
+    lastScroll = currentScroll;
+  });
+});

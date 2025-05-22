@@ -69,25 +69,63 @@
     margin: 5px 0;
 }
 .spacial_Item{
-
-    height: 50vh;
-    width: 80vw;
-    margin: 3rem auto;
+    
+    height: fit-content ;
+    width: fit-content;
+    margin: 2rem auto;
       background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  border-radius: 7%;
 
 }
 .spacial_Item .tile{
     background-color: transparent;
     background:none;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
     backdrop-filter: none;
     border: none;
-    scale: 2;
+    margin: 0 ;
+
+}
+.spacial_Item .tile img{
+    width: 60vw;
+    height: auto;
 }
 .spacial_Item .texts{
-    font-size: var(--basicFontSize);
+    font-size: 18px;
+    padding: 1.5rem ;
+
 }
+.highlight{
+    font-size: 2rem;
+    color: var(--highLight);
+}
+.spacial_Item .heading{
+    font-size: 2.6rem;
+    font-family: for_heading;
+    line-break:unset;
+    word-wrap: none;
+}
+.spacial_Item a{
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: var(--highLight2);
+    cursor: pointer;
+    margin:20px 0 ;
+}
+.spacial_Item .productPrice{
+    font-size: 2rem;
+    font-weight: 700;
+}
+.spacial_Item .productName{
+    font-size: 1.5rem;
+}
+

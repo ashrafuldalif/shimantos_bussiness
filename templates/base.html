@@ -16,13 +16,13 @@
     <title>Void</title>
   </head>
   <body>
-    <nav>
+    <nav class="smart-nav">
       <div class="top right">
         <div class="users DF">
           <p class="user_name btnImgs">Ashraful D alif</p>
           <button class="btnImgs">
             <a href="{{ url_for('profile') }}">
-              <img src="../static/iamges/userIcon.svg" alt="" class="icons" />
+              <img src="../static/iamges/userIcon.svg" alt="" class="icons dark_icon" />
             </a>
           </button>
         </div>
@@ -52,7 +52,7 @@
           >
 
           <button class="cart-icon" id="cartBtn">
-            <img src="../static/iamges/Basket_alt_3_light.svg" class="icons" />
+            <img src="../static/iamges/Basket_alt_3_light.svg" class="icons dark_icon" />
           </button>
         </div>
       </div>
@@ -93,5 +93,7 @@
     </div>
     <footer></footer>
   </body>
+   <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+>
   {% block addJS %} {% endblock %}
 </html>
