@@ -102,6 +102,8 @@ button {
   -webkit-backdrop-filter: blur(6px); /* Safari support */
 }
 .form-group {
+  border: 1px solid rgba(53, 53, 53, 0.512) ;
+
   height: fit-content;
   width: 80vw;
   background-color: rgba(128, 128, 128, 0.805);
