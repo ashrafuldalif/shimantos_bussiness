@@ -8,7 +8,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart"
     />
-
+    <link rel="stylesheet" href="../static/css/bgSliding.css">
     <link rel="stylesheet" href="{% block CssFile %}{% endblock %}" />
     <link rel="stylesheet" href="{% block CssFile2 %}{% endblock %}" />
     <link rel="stylesheet" href="{% block CssFile3 %}{% endblock %}" />
@@ -16,6 +16,15 @@
     <title>Void</title>
   </head>
   <body>
+        <div class="bg">
+      <img src="../static/iamges/mangabg1.jpg" />
+      <img src="../static/iamges/mangabg2.jpg" />
+      <img src="../static/iamges/mangabg3.jpg" />
+      <img src="../static/iamges/mangabg4.jpg" />
+      <img src="../static/iamges/mangabg5.jpg" />
+      <img src="../static/iamges/mangabg6.jpg" />
+      <img src="../static/iamges/mangabg7.jpg" />
+    </div>
     <nav class="smart-nav">
       <div class="top right">
         <div class="users DF">
@@ -97,6 +106,5 @@
   </body>
    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
    
->
   {% block addJS %} {% endblock %}
 </html>

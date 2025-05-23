@@ -15,7 +15,7 @@
   filter: brightness(0.5);
   object-fit: cover; /* Ensures image covers entire viewport */
   opacity: 0.3; /* Adjust opacity (0.3 = 30% visibility) */
-  animation: slide 55s linear infinite; /* Slow sliding (60s per cycle) */
+  animation: slide 45s linear infinite; /* Slow sliding (60s per cycle) */
   animation-delay: 0;
 }
 
