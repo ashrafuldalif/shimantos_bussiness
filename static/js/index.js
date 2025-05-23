@@ -146,3 +146,10 @@ document.addEventListener('DOMContentLoaded', function() {
     lastScroll = currentScroll;
   });
 });
+
+
+function updateCartCount(count) {
+  const badge = document.querySelector('.cart-badge');
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none'; // Hide if count is 0
+}

@@ -85,6 +85,7 @@ a {
 .right {
   display: flex;
   justify-content: end;
+  margin-right: 10px;
   flex: 1;
 }
 .select {
@@ -201,6 +202,9 @@ a {
   position: relative;
   /* animation: Gauto 2s ease-in-out 0.5s infinite forwards; */
   /* background-color: red; */
+}
+.tile a{
+  cursor: pointer;
 }
 
 /* Image container with strict height control */
@@ -341,6 +345,25 @@ footer {
   -webkit-user-select: none; /* Safari/Chrome */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE/Edge */
+}
+
+.cart-badge {
+  position: absolute;
+  top: 35px; /* Adjust to position vertically */
+  right: 10px; /* Adjust to position horizontally */
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background-color: #ff0000;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: 1px solid white;
+  z-index: 30;
 }
 .FDC{
   display: flex;

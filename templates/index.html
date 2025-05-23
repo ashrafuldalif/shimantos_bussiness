@@ -15,15 +15,17 @@ filename='css/style.css') }} {% endblock %} {% block content%}
     </div> -->
 
   {%for n in p %}
-
-  <div href="../templates/product.html" class="tile center">
-    <img src="{{n.pic}}" />
-    <p class="productName">{{n.name}}</p>
-    <p class="productPrice">{{n.price}}tk</p>
-    <div class="AddTOCartBtn center">
-      <p>Add to Cart</p>
+  <div class="tile center">
+<a href="{{ url_for('product') }}">
+    
+      <img src="{{n.pic}}" />
+      <p class="productName">{{n.name}}</p>
+      <p class="productPrice">{{n.price}}tk</p>
+    </a>
+      <div class="AddTOCartBtn center">
+        <p>Add to Cart</p>
+      </div>
     </div>
-  </div>
   {%endfor%}
   <!-- <div class="rightArrow">
     <img src="../static/iamges/arrow-right.svg" alt="" />

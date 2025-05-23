@@ -29,6 +29,10 @@ def profile():
 def product():
     return render_template("product.html")
 
+@app.route("/reviews")
+def reviews():
+    return render_template("reviews.html")
+
 app.run(host="0.0.0.0", port=5000, debug=True)
 # app.run(debug=True)
 
