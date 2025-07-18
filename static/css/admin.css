@@ -1,0 +1,124 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f6fa;
+}
+
+nav {
+  background-color: #2f3640;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+nav button {
+  background: #40739e;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.section {
+  display: none;
+  padding: 2rem;
+}
+
+.section.active {
+  display: block;
+}
+
+.login-box {
+  width: 300px;
+  margin: 10% auto;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.login-box button {
+  padding: 10px 20px;
+  width: 100%;
+  background: #27ae60;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.product-bar {
+  background: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.product-bar input {
+  padding: 6px;
+}
+
+.image-thumbnails {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+}
+
+.image-thumbnails img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+#show-form-btn {
+  background: #44bd32;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#product-form {
+  background: #fff;
+  padding: 15px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 300px;
+}
+
+#product-form input,
+#product-form select {
+  padding: 8px;
+}
+
+.order {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.image-input {
+  padding: 5px;
+}

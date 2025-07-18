@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="../static/css/admin.css">
+</head>
+<body>
+  <nav>
+    <button onclick="showSection('products')">Products</button>
+    <button onclick="showSection('orders')">Orders</button>
+  </nav>
+
+  <section id="products" class="section active">
+    <h2>Manage Products</h2>
+    <div id="product-list">
+      <!-- Sample product bar -->
+      <div class="product-bar">
+        <input type="text" value="T-shirt" disabled>
+        <input type="text" value="Medium" disabled>
+        <input type="text" value="Red, Blue" disabled>
+        <input type="text" value="In Stock" disabled>
+        <div class="image-thumbnails">
+          <img src="img1.jpg" alt="img1">
+          <img src="img2.jpg" alt="img2">
+          <!-- Add up to 10 images -->
+        </div>
+        <input type="number" value="25" disabled>
+        <button onclick="editProduct(this)">Edit</button>
+        <button onclick="deleteProduct(this)">Delete</button>
+      </div>
+      <!-- Repeat dynamically with JS -->
+    </div>
+
+    <button id="show-form-btn" onclick="toggleForm()">+ Add Product</button>
+
+    <form id="product-form" style="display: none;">
+      <input type="text" placeholder="Product Name" required>
+      <select required>
+        <option value="">Select Size</option>
+        <option>Small</option>
+        <option>Medium</option>
+        <option>Large</option>
+      </select>
+      <input type="file" multiple accept="image/*" required>
+      <input type="text" placeholder="Available Colors (comma separated)" required>
+      <input type="number" placeholder="Price" required>
+      <select required>
+        <option value="">Availability</option>
+        <option>In Stock</option>
+        <option>Out of Stock</option>
+      </select>
+      <button type="submit">Add Product</button>
+    </form>
+  </section>
+
+  <section id="orders" class="section">
+    <h2>Orders</h2>
+    <div id="order-list">
+      <div class="order">
+        <p><strong>Order ID:</strong> #001</p>
+        <p><strong>Product:</strong> T-shirt</p>
+        <label>Status:
+          <select>
+            <option>Packaging</option>
+            <option>Handed to Delivery</option>
+            <option>Reached Your Place</option>
+            <option>Done</option>
+          </select>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <script src="../static/js/admin.js"></script>
+</body>
+</html>

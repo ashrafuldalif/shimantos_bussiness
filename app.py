@@ -59,9 +59,12 @@ def remove_from_cart(product_id):
 @app.route("/profile")
 def profile():
     return render_template("profile.html")
+@app.route("/admin")
+def admin():
+    return render_template("adminpanel.html")
 
-=======
->>>>>>> c50251652185eccab85ec27f2cf1fb26f6e66cb8
+# =======
+# >>>>>>> c50251652185eccab85ec27f2cf1fb26f6e66cb8
 
 
 @app.route("/shop")
