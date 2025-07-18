@@ -11,6 +11,9 @@ class Customer(db.Model):
     number = db.Column(db.String(15), nullable=False)
     gmail = db.Column(db.String(100), nullable=False)
     secret_key = db.Column(db.String(100), nullable=False)
+    image = db.Column(db.String(100))  # Optional
+
+    orders = db.relationship('Orders', backref='customer', lazy=True)
 
 class Product(db.Model):
     __tablename__ = 'product'
@@ -22,6 +25,10 @@ class Product(db.Model):
     product_available = db.Column(db.Integer)
     costing = db.Column(db.Numeric(10, 2))
     rating = db.Column(db.Numeric(3, 2))
+    image = db.Column(db.String(100))
+
+    orders = db.relationship('Orders', backref='product', lazy=True)
+    history_items = db.relationship('History', backref='product', lazy=True)
 
 class History(db.Model):
     __tablename__ = 'history'
@@ -39,4 +46,3 @@ class Orders(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('product.product_id'), nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
     order_time = db.Column(db.DateTime, default=datetime.utcnow)
-    
