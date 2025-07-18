@@ -44,7 +44,7 @@
 {% if cart %}
   {% for item in cart %}
   <div class="citem DF">
-    <img src="{{ url_for('static', filename='images/' ~ item.id ) ~ '.png' }}" class="Pimage" />
+    <img src="{{ url_for('static', filename='images/' ~ item.image ) ~ '.png' }}" class="Pimage" />
     <div class="texts">
       <p class="CIname">Name: {{ item.name }}</p>
       <p class="Ctk">Price: {{ item.price }} tk</p>
@@ -52,7 +52,7 @@
       <p class="Qty">Qty: {{ item.qty }}</p>
       <p class="Subtotal">Subtotal: {{ item.subtotal }} tk</p>
     </div>
-    <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
+    <a href="{{ url_for('remove_from_cart_home', product_id=item.id) }}">
       <button class="btnImgs">
         <img src="{{ url_for('static', filename='iamges/delete.svg') }}" alt="Delete" class="del" />
       </button>
