@@ -1,62 +1,87 @@
-{% extends "base.html" %} {%block CssFile%} {{ url_for('static',
-filename='css/style.css') }} {% endblock %} {% block content%}
+{% extends "base.html" %}
+
+{% block CssFile %}
+  {{ url_for('static', filename='css/style.css') }}
+{% endblock %}
+
+{% block content %}
 <div class="hero_section">
   <p class="hero_heading">Main heading here ola</p>
   <p class="hero_subline">subline text here avara ka davra</p>
-  <a href="">
+  <a href="#">
     <div class="shop_button center"><p>Shop Now</p></div>
   </a>
 </div>
 
 <p class="identity">OUR PRODUCTS</p>
 <div class="gellary DF center" id="gallery">
-  <!-- <div class="leftArrow">
-    <img src="../static/iamges/arrow-left.svg" alt="" />
-    </div> -->
-
-  {%for n in p %}
+  {% for item in range(lenn) %}
   <div class="tile center">
-<a href="{{ url_for('product') }}">
-    
-      <img src="{{n.pic}}" />
-      <p class="productName">{{n.name}}</p>
-      <p class="productPrice">{{n.price}}tk</p>
+    <a href="#">
+      <img src="{{ url_for('static', filename='images/' ~ products[item].image ) ~ '.png' }}" />
+      <p class="productName">{{ products[item].product_name }}</p>
+      <p class="productPrice">{{ products[item].price }} tk</p>
     </a>
-      <div class="AddTOCartBtn center">
-        <p>Add to Cart</p>
-      </div>
+    <div class="AddTOCartBtn center">
+      <form action="{{ url_for('add_to_cart') }}" method="post" style="margin:0;">
+        <input type="hidden" name="product_id" value="{{ products[item].product_id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" style="background:none; border:none; padding:0; cursor:pointer; color:inherit; font:inherit;">
+          <p style="margin:0;">Add to Cart</p>
+        </button>
+      </form>
     </div>
-  {%endfor%}
-  <!-- <div class="rightArrow">
-    <img src="../static/iamges/arrow-right.svg" alt="" />
-    </div> -->
+  </div>
+  {% endfor %}
 </div>
+
+
+
+{% block cartContent %} 
+
+<!-- Cart Section -->
+<p class="identity">YOUR CART</p>
+{% if cart %}
+  {% for item in cart %}
+  <div class="citem DF">
+    <img src="{{ url_for('static', filename='images/' ~ item.id ) ~ '.png' }}" class="Pimage" />
+    <div class="texts">
+      <p class="CIname">Name: {{ item.name }}</p>
+      <p class="Ctk">Price: {{ item.price }} tk</p>
+      <p class="ID">Product ID : {{ item.id }}</p>
+      <p class="Qty">Qty: {{ item.qty }}</p>
+      <p class="Subtotal">Subtotal: {{ item.subtotal }} tk</p>
+    </div>
+    <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
+      <button class="btnImgs">
+        <img src="{{ url_for('static', filename='iamges/delete.svg') }}" alt="Delete" class="del" />
+      </button>
+    </a>
+  </div>
+  {% endfor %}
+  <p class="cart_total">Total: <strong>{{ total }} tk</strong></p>
+{% else %}
+  <p>Your cart is empty.</p>
+{% endif %}
+{% endblock %}
+
 
 <p class="identity">WHY CHOOSE US</p>
 <div class="WhyUs DF">
   <div class="choseItem DF">
-    <img src="../static/iamges/underwear.svg" class="icons" />
+    <img src="{{ url_for('static', filename='iamges/underwear.svg') }}" class="icons" />
     <p>Comfort fit</p>
   </div>
   <div class="choseItem DF">
-    <img src="../static/iamges/textile.svg" class="icons" />
-
-    <p>
-      Premium <br />
-      Febric
-    </p>
-  </div>
-  <br />
-  <div class="choseItem DF">
-    <img src="../static/iamges/package.svg" class="icons" />
-
-    <p>
-      Discreet <br />
-      Packaging
-    </p>
+    <img src="{{ url_for('static', filename='iamges/textile.svg') }}" class="icons" />
+    <p>Premium <br /> Fabric</p>
   </div>
   <div class="choseItem DF">
-    <img src="../static/iamges/delivery_truck_speed.svg" class="icons" />
+    <img src="{{ url_for('static', filename='iamges/package.svg') }}" class="icons" />
+    <p>Discreet <br /> Packaging</p>
+  </div>
+  <div class="choseItem DF">
+    <img src="{{ url_for('static', filename='iamges/delivery_truck_speed.svg') }}" class="icons" />
     <p>Fast Delivery</p>
   </div>
 </div>
@@ -67,20 +92,37 @@ filename='css/style.css') }} {% endblock %} {% block content%}
   <p></p>
   <p></p>
 </div>
-{% endblock %} 
-{%block cartContent%}
-<div class="citem DF">
-  <img src="../static/iamges/Cluffy.jpg" class="Pimage" />
-
-  <div class="texts">
-    <p class="CIname">Name: Monkey D luffy</p>
-    <p class="Ctk">Price: 5000 tk</p>
-    <p class="ID">Product ID : 23100122</p>
-  </div>
-  <button class="btnImgs">
-    <img src="../static/iamges/delete.svg" alt="" class="del" />
-  </button>
-</div>
 {% endblock %}
-<!--  my cart section  -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+{% if cart %}
+<div class="cart_summary">
+  <h3>Your Cart</h3>
+  <ul>
+    {% for item in cart %}
+      <li>
+        {{ item.name }} — {{ item.qty }} × {{ item.price }} tk = {{ item.subtotal }} tk
+        <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">Remove</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <p><strong>Total: {{ total }} tk</strong></p>
+</div>
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %} -->
