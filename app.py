@@ -54,9 +54,7 @@ def remove_from_cart(product_id):
     if product_id_str in cart:
         del cart[product_id_str]
     session['cart'] = cart
-    return redirect(url_for("home"))
-
-    
+    return redirect(url_for("home"))    
 
 @app.route("/profile")
 def profile():
