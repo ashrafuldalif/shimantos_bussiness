@@ -1,79 +1,47 @@
 {% extends "base.html" %}
- {%block CssFile%}  {{ url_for('static',filename='css/style.css') }} {% endblock %} 
- {%block CssFile2%} {{ url_for('static',filename='css/product.css') }} {% endblock %} 
- {%block CssFile3%} {{ url_for('static',filename='css/cart.css') }} {% endblock %} 
-{% block content%}
-<div class="cwraper">
+{% block CssFile %}{{ url_for('static', filename='css/style.css') }}{% endblock %}
+{% block CssFile2 %}{{ url_for('static', filename='css/product.css') }}{% endblock %}
+{% block CssFile3 %}{{ url_for('static', filename='css/cart.css') }}{% endblock %}
 
+{% block content %}
+{% if cart %}
+  {% for item in cart %}
+  <div class="cwraper">
     <div class="Citem">
-         <img src="../static/iamges/brook.jpg"> 
-        <p class="name">brook </p>
-        <p class="size"> Midium</p>    
+      <!-- Static image fallback if product image not stored in DB -->
+      <img src="{{ url_for('static', filename='images/' ~ item.image ) ~ '.png' }}">
+      <p class="name">{{ item.name }}</p>
+      <p class="size">{{item.size}}</p>
     </div>
+
     <div class="fc">
-
-        <div class="quantity-input-wrapper">
-            <input type="number" min="1" value="1" class="quantity-input" id="quantity">
-            <div class="quantity-controls">
-                <button type="button" class="quantity-btn increment">+</button>
-                <button type="button" class="quantity-btn decrement">-</button>
-            </div>
+      <div class="quantity-input-wrapper">
+        <input type="number" min="1" value="{{ item.qty }}" class="quantity-input" id="quantity" disabled>
+        <div class="quantity-controls">
+          <button type="button" class="quantity-btn increment">+</button>
+           <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
+          <button type="button" class="quantity-btn decrement">-</button></a>
         </div>
-        <p class="price">amount : 3200tk</p>
-        </div>
-        <img class="csCross" src="../static/iamges/cros.svg" alt="">
-
-</div>
-<div class="cwraper">
-
-    <div class="Citem">
-         <img src="../static/iamges/brook.jpg"> 
-        <p class="name">brook </p>
-        <p class="size"> Midium</p>    
+      </div>
+      <p class="price">amount : {{ item.subtotal }}tk</p>
     </div>
-    <div class="fc">
 
-        <div class="quantity-input-wrapper">
-            <input type="number" min="1" value="1" class="quantity-input" id="quantity">
-            <div class="quantity-controls">
-                <button type="button" class="quantity-btn increment">+</button>
-                <button type="button" class="quantity-btn decrement">-</button>
-            </div>
-        </div>
-        <p class="price">amount : 3200tk</p>
-        </div>
-        <img class="csCross" src="../static/iamges/cros.svg" alt="">
-
-</div>
-<div class="cwraper">
-
-    <div class="Citem">
-         <img src="../static/iamges/brook.jpg"> 
-        <p class="name">brook </p>
-        <p class="size"> Midium</p>    
-    </div>
-    <div class="fc">
-
-        <div class="quantity-input-wrapper">
-            <input type="number" min="1" value="1" class="quantity-input" id="quantity">
-            <div class="quantity-controls">
-                <button type="button" class="quantity-btn increment">+</button>
-                <button type="button" class="quantity-btn decrement">-</button>
-            </div>
-        </div>
-        <p class="price">amount : 3200tk</p>
-        </div>
-        <img class="csCross" src="../static/iamges/cros.svg" alt="">
-</div>
-<div class="totalAmount "> Total : 1200000 tk</div>
-<div class="btnsDiv tux">
-      <button type="submit" class="btnImgs ">Buy Now</button>
-    </div>
+    <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
+      <img class="csCross" src="{{ url_for('static', filename='images/cros.svg') }}" alt="">
+    </a>
+  </div>
+  {% endfor %}
+  <div class="cartTotal">
+    <p style="text-align:center; font-weight:bold;">Total: {{ total }} tk</p>
+  </div>
+{% else %}
+  <p style="text-align:center; margin-top: 30px;">Your cart is empty.</p>
+{% endif %}
 {% endblock %}
 
-{% block addJS%}<script>
+{% block addJS %}
+<script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Fix for increment/decrement affecting only the first input
     const wrappers = document.querySelectorAll('.quantity-input-wrapper');
 
     wrappers.forEach(wrapper => {
@@ -92,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Optional product image zoom code — leave untouched if not using it
     const thumbnails = document.querySelectorAll('.viewPimages img');
     const bigImage = document.querySelector('.bigView img');
 
@@ -104,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Optional highlight button animation
     const buttons = document.querySelectorAll('.radio-button');
     const highlight = document.querySelector('.highlight');
 
@@ -124,17 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     updateHighlight();
-});
 
     document.querySelectorAll('.toggle-layout-btn').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const gallery = e.target.closest('.gallery-container').querySelector('.gellary');
-        gallery.classList.toggle('grid-mode');
+        button.addEventListener('click', (e) => {
+            const gallery = e.target.closest('.gallery-container').querySelector('.gellary');
+            gallery.classList.toggle('grid-mode');
+        });
     });
 });
-
-
-
 </script>
-
 {% endblock %}
