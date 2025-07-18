@@ -28,6 +28,9 @@ def profile():
 @app.route("/product")
 def product():
     return render_template("product.html")
+@app.route("/Cart")
+def Cart():
+    return render_template("cart.html")
 
 @app.route("/reviews")
 def reviews():

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+ {%block CssFile%}  {{ url_for('static',filename='css/style.css') }} {% endblock %} 
+ {%block CssFile2%} {{ url_for('static',filename='css/product.css') }} {% endblock %} 
+ {%block CssFile3%} {{ url_for('static',filename='css/cart.css') }} {% endblock %} 
+{% block content%}
+<div class="cwraper">
+
+    <div class="Citem">
+         <img src="../static/iamges/brook.jpg"> 
+        <p class="name">brook </p>
+        <p class="size"> Midium</p>    
+    </div>
+    <div class="fc">
+
+        <div class="quantity-input-wrapper">
+            <input type="number" min="1" value="1" class="quantity-input" id="quantity">
+            <div class="quantity-controls">
+                <button type="button" class="quantity-btn increment">+</button>
+                <button type="button" class="quantity-btn decrement">-</button>
+            </div>
+        </div>
+        <p class="price">amount : 3200tk</p>
+        </div>
+        <img class="csCross" src="../static/iamges/cros.svg" alt="">
+
+</div>
+<div class="cwraper">
+
+    <div class="Citem">
+         <img src="../static/iamges/brook.jpg"> 
+        <p class="name">brook </p>
+        <p class="size"> Midium</p>    
+    </div>
+    <div class="fc">
+
+        <div class="quantity-input-wrapper">
+            <input type="number" min="1" value="1" class="quantity-input" id="quantity">
+            <div class="quantity-controls">
+                <button type="button" class="quantity-btn increment">+</button>
+                <button type="button" class="quantity-btn decrement">-</button>
+            </div>
+        </div>
+        <p class="price">amount : 3200tk</p>
+        </div>
+        <img class="csCross" src="../static/iamges/cros.svg" alt="">
+
+</div>
+<div class="cwraper">
+
+    <div class="Citem">
+         <img src="../static/iamges/brook.jpg"> 
+        <p class="name">brook </p>
+        <p class="size"> Midium</p>    
+    </div>
+    <div class="fc">
+
+        <div class="quantity-input-wrapper">
+            <input type="number" min="1" value="1" class="quantity-input" id="quantity">
+            <div class="quantity-controls">
+                <button type="button" class="quantity-btn increment">+</button>
+                <button type="button" class="quantity-btn decrement">-</button>
+            </div>
+        </div>
+        <p class="price">amount : 3200tk</p>
+        </div>
+        <img class="csCross" src="../static/iamges/cros.svg" alt="">
+</div>
+<div class="totalAmount "> Total : 1200000 tk</div>
+<div class="btnsDiv tux">
+      <button type="submit" class="btnImgs ">Buy Now</button>
+    </div>
+{% endblock %}
+
+{% block addJS%}<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Fix for increment/decrement affecting only the first input
+    const wrappers = document.querySelectorAll('.quantity-input-wrapper');
+
+    wrappers.forEach(wrapper => {
+        const quantityInput = wrapper.querySelector('.quantity-input');
+        const incrementBtn = wrapper.querySelector('.increment');
+        const decrementBtn = wrapper.querySelector('.decrement');
+
+        incrementBtn.addEventListener('click', function () {
+            quantityInput.stepUp();
+        });
+
+        decrementBtn.addEventListener('click', function () {
+            if (quantityInput.value > 1) {
+                quantityInput.stepDown();
+            }
+        });
+    });
+
+    // Optional product image zoom code — leave untouched if not using it
+    const thumbnails = document.querySelectorAll('.viewPimages img');
+    const bigImage = document.querySelector('.bigView img');
+
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function () {
+            bigImage.src = this.src;
+            thumbnails.forEach(img => img.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Optional highlight button animation
+    const buttons = document.querySelectorAll('.radio-button');
+    const highlight = document.querySelector('.highlight');
+
+    function updateHighlight() {
+        const checkedButton = document.querySelector('.radio-button input:checked');
+        if (checkedButton) {
+            const button = checkedButton.parentElement;
+            highlight.style.width = `${button.offsetWidth}px`;
+            highlight.style.left = `${button.offsetLeft}px`;
+        }
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            setTimeout(updateHighlight, 10);
+        });
+    });
+
+    updateHighlight();
+});
+
+    document.querySelectorAll('.toggle-layout-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const gallery = e.target.closest('.gallery-container').querySelector('.gellary');
+        gallery.classList.toggle('grid-mode');
+    });
+});
+
+
+
+</script>
+
+{% endblock %}

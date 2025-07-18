@@ -1,0 +1,76 @@
+:root {
+  --backGroundClr: #272727;
+  --basicTxtColor: white;
+  --highLight: orange;
+  --highLight2: rgb(233, 166, 41);
+  --minColor: rgb(151, 151, 151);
+
+  --basicFont: "Calibri", sans-serif;
+  --baiscFontWeight: 350;
+  --basicFontSize: 16px;
+}
+
+.cwraper {
+  width: 85vw;
+  margin: 2rem auto;
+  padding: 1rem ;
+  background-color: var(--backGroundClr);
+  border: 0.2px solid var(--highLight2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-family:monospace;
+}
+
+/* Cart item with image and description */
+.Citem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.Citem img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  text-transform: capitalize;
+}
+.csCross{
+    z-index: 23;
+    position: relative;
+    top: -45px;
+    right: -10PX;
+}
+.size {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.price {
+    margin-top: 12px;
+}
+
+.totalAmount{
+text-align: center;
+width: 89vw;
+margin: 1rem auto;
+font-size: 1.4rem;
+font-weight: 800;
+color: var(--highLight);
+border-bottom: 1px dashed gold ;
+padding-bottom: 1rem;
+}
+.tux{
+    transform: scale(1.6);
+}
