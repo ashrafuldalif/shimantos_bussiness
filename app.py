@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,flash
 from models import db, Product
 from decimal import Decimal
 
@@ -18,7 +18,7 @@ def home():
     total = Decimal("0.00")
 
     for product_id, qty in cart.items():
-        product = Product.query.get(int(product_id))
+        product = Product.query.get((product_id))
         if product:
             subtotal = product.price * qty
             total += subtotal
@@ -39,6 +39,9 @@ def home():
 
     return render_template("index.html", products=products, lenn=len(products), cart=cart_items, total=total)
 
+
+
+
 @app.route("/add_to_cart", methods=["POST"])
 def add_to_cart():
     product_id = request.form.get("product_id")
@@ -54,6 +57,7 @@ def add_to_cart():
     print(f"added to cart now cart item {len(cart)}")
     return redirect(url_for("home"))
 
+
 @app.route("/cart")
 def cart():
     products = Product.query.all()
@@ -62,7 +66,7 @@ def cart():
     total = Decimal("0.00")
 
     for product_id, qty in cart.items():
-        product = Product.query.get(int(product_id))
+        product = Product.query.get((product_id))
         if product:
             subtotal = product.price * qty
             total += subtotal
@@ -83,6 +87,20 @@ def cart():
     return render_template("cart.html",cart=cart_items, total=total)
 
 
+@app.route("/add_to_cart_page", methods=["POST"])
+def add_to_cart_page():
+    product_id = request.form.get("product_id")
+    quantity = int(request.form.get("quantity", 1))
+
+    cart = session.get("cart", {})
+    if product_id in cart:
+        cart[product_id] += quantity
+    else:
+        cart[product_id] = quantity
+
+    session["cart"] = cart
+    print(f"added to cart now cart item {len(cart)}")
+    return redirect(url_for("cart"))
 
 
     # __tablename__ = 'product'
@@ -140,6 +158,95 @@ def admin():
 @app.route("/shop")
 def shop():
     return render_template("shop.html")
+
+
+
+
+
+# Admin Section
+@app.route("/admin/manage-products", methods=["GET"])
+def manage_products():
+    products = Product.query.all()
+    return render_template("admin/manageproduct.html", products=products)
+
+
+@app.route("/admin/add-product", methods=["POST"])
+def add_product():
+    try:
+        name = request.form.get("product_name")  # match your form input names
+        price = Decimal(request.form.get("price"))
+        color = request.form.get("color")
+        size = request.form.get("size")
+        quantity = int(request.form.get("product_available"))
+        cost = Decimal(request.form.get("costing"))
+        rating = Decimal(request.form.get("rating"))
+        image = request.form.get("image")
+
+        if not name or price is None:
+            flash("Name and price are required.", "error")
+            return redirect(url_for("manage_products"))
+
+        new_product = Product(
+            product_name=name,
+            price=price,
+            color=color,
+            size=size,
+            product_available=quantity,
+            costing=cost,
+            rating=rating,
+            image=image
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        flash("Product added successfully!", "success")
+    except Exception as e:
+        flash(f"Error adding product: {str(e)}", "error")
+    return redirect(url_for("manage_products"))
+
+
+@app.route("/admin/edit-product/<int:product_id>", methods=["POST"])
+def edit_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    try:
+        product.product_name = request.form.get("product_name")
+        product.price = Decimal(request.form.get("price"))
+        product.color = request.form.get("color")
+        product.size = request.form.get("size")
+        product.product_available = int(request.form.get("product_available"))
+        product.costing = Decimal(request.form.get("costing"))
+        product.rating = Decimal(request.form.get("rating"))
+        product.image = request.form.get("image")
+
+        db.session.commit()
+        flash("Product updated successfully!", "success")
+    except Exception as e:
+        flash(f"Error updating product: {str(e)}", "error")
+    return redirect(url_for("manage_products"))
+
+
+@app.route("/admin/delete-product/<int:product_id>", methods=["POST"])
+def delete_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    try:
+        db.session.delete(product)
+        db.session.commit()
+        flash("Product deleted successfully!", "success")
+    except Exception as e:
+        flash(f"Error deleting product: {str(e)}", "error")
+    return redirect(url_for("manage_products"))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

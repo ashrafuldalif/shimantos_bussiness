@@ -18,7 +18,15 @@
       <div class="quantity-input-wrapper">
         <input type="number" min="1" value="{{ item.qty }}" class="quantity-input" id="quantity" disabled>
         <div class="quantity-controls">
-          <button type="button" class="quantity-btn increment">+</button>
+          
+        <form action="{{ url_for('add_to_cart_page') }}" method="post" style="margin:0;">
+        <input type="hidden" name="product_id" value="{{ item.id }}">
+        <input type="hidden" name="quantity" value="1">
+       
+            <button type="submit" class="quantity-btn increment">+</button>
+
+        </form>
+
            <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
           <button type="button" class="quantity-btn decrement">-</button></a>
         </div>

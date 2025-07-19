@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Products</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container mx-auto p-4">
+    <h2 class="text-3xl font-bold mb-6 text-center">Manage Products</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mb-4 p-3 rounded text-white {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Add Product Form -->
+    <form action="{{ url_for('add_product') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 p-4 bg-gray-100 rounded-lg shadow">
+      <input name="product_name" type="text" placeholder="Product Name" class="p-2 border rounded" required />
+      <input name="price" type="number" step="0.01" placeholder="Price" class="p-2 border rounded" required />
+      <input name="color" type="text" placeholder="Color" class="p-2 border rounded" />
+      <input name="size" type="text" placeholder="Size" class="p-2 border rounded" />
+      <input name="product_available" type="number" placeholder="Quantity" class="p-2 border rounded" />
+      <input name="costing" type="number" step="0.01" placeholder="Cost" class="p-2 border rounded" />
+      <input name="rating" type="number" step="0.1" placeholder="Rating" class="p-2 border rounded" />
+      <input name="image" type="text" placeholder="Image URL" class="p-2 border rounded" />
+      <div class="col-span-1 md:col-span-2 text-center">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">Add Product</button>
+      </div>
+    </form>
+
+    <!-- Product Table -->
+    <table class="w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="p-2 border">Image</th>
+          <th class="p-2 border">Name</th>
+          <th class="p-2 border">Price</th>
+          <th class="p-2 border">Color</th>
+          <th class="p-2 border">Size</th>
+          <th class="p-2 border">Quantity</th>
+          <th class="p-2 border">Rating</th>
+          <th class="p-2 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr class="bg-white hover:bg-gray-50">
+          <form action="{{ url_for('edit_product', product_id=product.product_id) }}" method="POST" class="contents">
+            <td class="p-2 border">
+              {% if product.image %}
+                <img src="{{ url_for('static', filename='images/' ~ product.image ) ~ '.png' }}" alt="{{ product.product_name }}" class="w-16 h-16 object-contain mx-auto" />
+              {% else %}
+                <span class="text-gray-400">No Image</span>
+              {% endif %}
+            </td>
+            <td class="p-2 border">
+              <input name="product_name" value="{{ product.product_name }}" class="w-full border p-1 rounded" />
+            </td>
+            <td class="p-2 border">
+              <input name="price" value="{{ product.price }}" type="number" step="0.01" class="w-full border p-1 rounded" />
+            </td>
+            <td class="p-2 border">
+              <input name="color" value="{{ product.color }}" class="w-full border p-1 rounded" />
+            </td>
+            <td class="p-2 border">
+              <input name="size" value="{{ product.size }}" class="w-full border p-1 rounded" />
+            </td>
+            <td class="p-2 border">
+              <input name="product_available" value="{{ product.product_available }}" type="number" class="w-full border p-1 rounded" />
+            </td>
+            <td class="p-2 border">
+              <input name="rating" value="{{ product.rating }}" type="number" step="0.1" class="w-full border p-1 rounded" />
+            </td>
+            <td class="p-2 border flex gap-2 justify-center">
+              <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">Update</button>
+          </form>
+          <form action="{{ url_for('delete_product', product_id=product.product_id) }}" method="POST" onsubmit="return confirm('Delete this product?');" class="inline">
+              <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+          </form>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
