@@ -74,6 +74,7 @@ def add_to_cart():
 @app.route("/cart")
 def cart():
     cart = session.get('cart', {})
+    idtok = len(cart)
     cart_items = []
     total = Decimal("0.00")
 
@@ -96,7 +97,7 @@ def cart():
                 'subtotal': subtotal
             })
 
-    return render_template("cart.html", cart=cart_items, total=total)
+    return render_template("cart.html", cart=cart_items, total=total, idtok=idtok)
 
 @app.route("/add_to_cart_page", methods=["POST"])
 def add_to_cart_page():
@@ -145,43 +146,6 @@ def shop():
 
 #----------------------------------- Order Tracking -------------------------------------
 
-@app.route('/place_order', methods=['POST'])
-def place_order():
-    cart = session.get('cart', {})
-
-    if not cart:
-        flash("Your cart is empty. Please add products before placing an order.", "error")
-        return redirect(url_for('cart'))
-
-    # For demo, using fixed customer_id; replace with actual login session
-    customer_id = 1
-
-    try:
-        # Insert one order record per quantity unit
-        for product_id_str, qty in cart.items():
-            product_id = int(product_id_str)
-            product = Product.query.get(product_id)
-            if not product:
-                continue
-            for _ in range(qty):
-                order = Orders(
-                    c_id=customer_id,
-                    product_id=product_id,
-                    price=product.price
-                )
-                db.session.add(order)
-
-        db.session.commit()
-        session['cart'] = {}
-
-        flash("Order placed successfully!", "success")
-        return redirect(url_for('track_orders', c_id=customer_id))
-
-    except Exception as e:
-        db.session.rollback()
-        flash(f"Failed to place order: {e}", "error")
-        return redirect(url_for('cart'))
-
 @app.route('/track_orders/<int:c_id>')
 def track_orders(c_id):
     customer = Customer.query.get_or_404(c_id)
@@ -203,15 +167,84 @@ def track_orders(c_id):
 
 # -------------------------------- Customer Registration --------------------------------
 
+
+def place_order():
+    cart = session.get('cart', {})
+
+    if not cart:
+        flash("Your cart is empty. Please add products before placing an order.", "error")
+        return redirect(url_for('cart'))
+
+    customer_id = 1  # Replace with dynamic customer from login/session
+
+    try:
+        for product_id_str, qty in cart.items():
+            product_id = int(product_id_str)
+            product = Product.query.get(product_id)
+
+            if not product:
+                flash(f"Product with ID {product_id} not found.", "error")
+                print(f"Product {product_id} not found")
+                continue
+
+            if product.product_available is None or product.product_available < qty:
+                flash(f"Not enough stock for {product.product_name}.", "error")
+                print(f"Insufficient stock for {product.product_name}: available {product.product_available}, requested {qty}")
+                continue
+
+            # Deduct stock
+            product.product_available -= qty
+            print(f"Deducting {qty} from {product.product_name}, new stock: {product.product_available}")
+
+            # Add order entries
+            for _ in range(qty):
+                order = Orders(
+                    c_id=customer_id,
+                    product_id=product_id,
+                    price=product.price
+                )
+                db.session.add(order)
+
+        db.session.flush()  # Flush to DB to detect errors before commit
+        db.session.commit()
+        session['cart'] = {}
+
+        flash("Order placed successfully!", "success")
+        return redirect(url_for('track_orders', c_id=customer_id))
+
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Failed to place order: {e}", "error")
+        print(f"Exception in place_order: {e}")
+        return redirect(url_for('cart'))
+
+
+
+
+
+
+
+
 @app.route("/customer/register", methods=["GET", "POST"])
 def check_customer_email():
+
+    if request.method == "GET":
+        cartsize = request.args.get("XYZ")
+        cart = session.get('cart', {})
+        if(str(len(cart))!=(cartsize)):
+            return redirect(url_for('home'))
+
     if request.method == "POST":
         email = request.form.get("gmail")
+        customer = Customer.query.filter_by(gmail=email).first()
         existing = Customer.query.filter_by(gmail=email).first()
         if existing:
-            return redirect(url_for("checkout_page", customer_id=existing.c_id))
+            place_order()
+            return redirect(url_for("checkout_page",  c_id=customer.c_id))
+
         else:
             return render_template("customer_register.html", gmail=email, show_form=True)
+   
     return render_template("customer_register.html", show_form=False)
 
 @app.route("/customer/register/submit", methods=["POST"])
@@ -245,15 +278,21 @@ def register_customer():
         )
         db.session.add(new_customer)
         db.session.commit()
-
-        return redirect(url_for("checkout_page", customer_id=new_customer.c_id))
+        place_order()
+        return redirect(url_for("checkout_page", c_id= new_customer.c_id))
+    
     except Exception as e:
         flash(f"Registration failed: {e}", "error")
         return redirect(url_for("check_customer_email"))
 
-@app.route("/checkout/<int:customer_id>")
-def checkout_page(customer_id):
-    customer = Customer.query.get_or_404(customer_id)
+
+
+
+@app.route("/checkout/<int:c_id>")
+def checkout_page(c_id):
+    customer = Customer.query.get_or_404(c_id)
+
+    # Get cart from session
     cart = session.get('cart', {})
     cart_items = []
     total = Decimal("0.00")
@@ -277,7 +316,16 @@ def checkout_page(customer_id):
                 'subtotal': subtotal
             })
 
-    return render_template("checkout.html", customer=customer, cart=cart_items, total=total)
+    # Get all orders
+    orders = Orders.query.filter_by(c_id=c_id).all()
+
+    return render_template(
+        "track_orders.html",
+        customer=customer,
+        cart=cart_items,
+        total=total,
+        orders=orders
+    )
 
 # -------------------------------- Admin: Product Management --------------------------------
 

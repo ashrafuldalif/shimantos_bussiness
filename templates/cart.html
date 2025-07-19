@@ -43,12 +43,16 @@
     <p style="text-align:center; font-weight:bold;">Total: {{ total }} tk</p>
   </div>
 
-  <!-- Place Order Button: Added below your cart total -->
-  <form action="{{ url_for('place_order') }}" method="POST" style="text-align:center; margin-top: 20px;">
-    <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">
-      Place Order
-    </button>
-  </form>
+  <form action="{{ url_for('check_customer_email') }}" method="GET" class="text-center mt-5">
+  <input type="hidden" name="XYZ" value="{{ idtok }}">
+  <button 
+    type="submit" 
+    class="w-36 h-10 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-300 ease-in-out"
+  >
+    Place Order
+  </button>
+</form>
+
 
 {% else %}
   <p style="text-align:center; margin-top: 30px;">Your cart is empty.</p>
