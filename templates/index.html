@@ -18,7 +18,7 @@
   {% for item in range(lenn) %}
   <div class="tile center">
     <a href="#">
-      <img src="{{ url_for('static', filename='images/' ~ products[item].image ) ~ '.png' }}" />
+      <img src="{{ url_for('static', filename='images/' ~ products[item].image ) }}" />
       <p class="productName">{{ products[item].product_name }}</p>
       <p class="productPrice">{{ products[item].price }} tk</p>
     </a>
@@ -44,7 +44,7 @@
 {% if cart %}
   {% for item in cart %}
   <div class="citem DF">
-    <img src="{{ url_for('static', filename='images/' ~ item.image ) ~ '.png' }}" class="Pimage" />
+    <img src="{{ url_for('static', filename='images/' ~ item.image )}}" class="Pimage" />
     <div class="texts">
       <p class="CIname">Name: {{ item.name }}</p>
       <p class="Ctk">Price: {{ item.price }} tk</p>

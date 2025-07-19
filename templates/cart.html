@@ -9,7 +9,7 @@
   <div class="cwraper">
     <div class="Citem">
       <!-- Static image fallback if product image not stored in DB -->
-      <img src="{{ url_for('static', filename='images/' ~ item.image ) ~ '.png' }}">
+      <img src="{{ url_for('static', filename='images/' ~ item.image )}}">
       <p class="name">{{ item.name }}</p>
       <p class="size">{{item.size}}</p>
     </div>
@@ -18,17 +18,17 @@
       <div class="quantity-input-wrapper">
         <input type="number" min="1" value="{{ item.qty }}" class="quantity-input" id="quantity" disabled>
         <div class="quantity-controls">
-          
-        <form action="{{ url_for('add_to_cart_page') }}" method="post" style="margin:0;">
-        <input type="hidden" name="product_id" value="{{ item.id }}">
-        <input type="hidden" name="quantity" value="1">
-       
+
+          <form action="{{ url_for('add_to_cart_page') }}" method="post" style="margin:0;">
+            <input type="hidden" name="product_id" value="{{ item.id }}">
+            <input type="hidden" name="quantity" value="1">
+
             <button type="submit" class="quantity-btn increment">+</button>
+          </form>
 
-        </form>
-
-           <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
-          <button type="button" class="quantity-btn decrement">-</button></a>
+          <a href="{{ url_for('remove_from_cart', product_id=item.id) }}">
+            <button type="button" class="quantity-btn decrement">-</button>
+          </a>
         </div>
       </div>
       <p class="price">amount : {{ item.subtotal }}tk</p>
@@ -42,6 +42,14 @@
   <div class="cartTotal">
     <p style="text-align:center; font-weight:bold;">Total: {{ total }} tk</p>
   </div>
+
+  <!-- Place Order Button: Added below your cart total -->
+  <form action="{{ url_for('place_order') }}" method="POST" style="text-align:center; margin-top: 20px;">
+    <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">
+      Place Order
+    </button>
+  </form>
+
 {% else %}
   <p style="text-align:center; margin-top: 30px;">Your cart is empty.</p>
 {% endif %}

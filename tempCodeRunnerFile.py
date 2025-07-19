@@ -1,1 +1,1 @@
-/admin/manage-products
+place_order

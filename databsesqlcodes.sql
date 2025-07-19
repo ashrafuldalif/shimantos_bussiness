@@ -16,7 +16,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Product (
     product_name VARCHAR(100),
-    product_id INT PRIMARY KEY,
+    product_id INT  AUTO_INCREMENT PRIMARY KEY,
     price DECIMAL(10, 2),
     color VARCHAR(50),
     size VARCHAR(20),
