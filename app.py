@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from datetime import datetime
+import random
+from flask import Flask, render_template,abort, render_template_string, request, redirect, url_for, session, flash
 from models import Customer, db, Product, Orders, History  # Added History import
 
 from decimal import Decimal
@@ -8,7 +10,7 @@ import secrets
 import string
 
 app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)  # Secure random key
+app.secret_key = secrets.token_hex(10)  # Secure random key
 
 # Database config
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/void'
@@ -144,79 +146,38 @@ def admin():
 def shop():
     return render_template("shop.html")
 
-#----------------------------------- Order Tracking -------------------------------------
-
-@app.route('/track_orders/<int:c_id>')
-def track_orders(c_id):
-    customer = Customer.query.get_or_404(c_id)
-    orders = Orders.query.filter_by(c_id=c_id).all()
-
-    tracking_data = []
-    for order in orders:
-        product = Product.query.get(order.product_id)
-        history = History.query.filter_by(product_id=product.product_id).order_by(History.time_order.desc()).first()
-
-        tracking_data.append({
-            'product_name': product.product_name,
-            'order_time': order.order_time,
-            'status': history.status if history else 'Unknown',
-            'price': order.price
-        })
-
-    return render_template('track_orders.html', customer=customer, tracking_data=tracking_data)
-
 # -------------------------------- Customer Registration --------------------------------
 
 
-def place_order():
+def place_order(c_id):
     cart = session.get('cart', {})
-
     if not cart:
-        flash("Your cart is empty. Please add products before placing an order.", "error")
-        return redirect(url_for('cart'))
+        flash("Your cart is empty.", "error")
+        return
 
-    customer_id = 1  # Replace with dynamic customer from login/session
+    new_order_id = random.randint(100000, 999999)  # or use your preferred order ID generation logic
 
-    try:
-        for product_id_str, qty in cart.items():
-            product_id = int(product_id_str)
-            product = Product.query.get(product_id)
+    for product_id_str, qty in cart.items():
+        product_id = int(product_id_str)
+        product = Product.query.get(product_id)
 
-            if not product:
-                flash(f"Product with ID {product_id} not found.", "error")
-                print(f"Product {product_id} not found")
-                continue
+        if product:
+            order = Orders(
+                order_id=new_order_id,
+                c_id=c_id,
+                product_id=product.product_id,
+                product_quantity=qty,  # updated to store quantity directly
+                price=product.price * qty  # total price for that product qty
+            )
+            db.session.add(order)
 
-            if product.product_available is None or product.product_available < qty:
-                flash(f"Not enough stock for {product.product_name}.", "error")
-                print(f"Insufficient stock for {product.product_name}: available {product.product_available}, requested {qty}")
-                continue
+    db.session.commit()
+    session.pop('cart', None)  # clear cart after placing order
+    flash("Order placed successfully!", "success")
 
-            # Deduct stock
-            product.product_available -= qty
-            print(f"Deducting {qty} from {product.product_name}, new stock: {product.product_available}")
 
-            # Add order entries
-            for _ in range(qty):
-                order = Orders(
-                    c_id=customer_id,
-                    product_id=product_id,
-                    price=product.price
-                )
-                db.session.add(order)
 
-        db.session.flush()  # Flush to DB to detect errors before commit
-        db.session.commit()
-        session['cart'] = {}
 
-        flash("Order placed successfully!", "success")
-        return redirect(url_for('track_orders', c_id=customer_id))
-
-    except Exception as e:
-        db.session.rollback()
-        flash(f"Failed to place order: {e}", "error")
-        print(f"Exception in place_order: {e}")
-        return redirect(url_for('cart'))
 
 
 
@@ -239,7 +200,6 @@ def check_customer_email():
         customer = Customer.query.filter_by(gmail=email).first()
         existing = Customer.query.filter_by(gmail=email).first()
         if existing:
-            place_order()
             return redirect(url_for("checkout_page",  c_id=customer.c_id))
 
         else:
@@ -259,14 +219,15 @@ def register_customer():
         # Auto-generate secret key
         secret_key = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(16))
 
-        image_filename = None
-        if image_file and image_file.filename and allowed_file(image_file.filename):
-            filename = secure_filename(image_file.filename)
-            ext = os.path.splitext(filename)[1]
-            image_filename = f"{secrets.token_hex(8)}{ext}"
-            path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            image_file.save(path)
+      
+        # if image_file and image_file.filename and allowed_file(image_file.filename):
+        #     filename = secure_filename(image_file.filename)
+        #     ext = os.path.splitext(filename)[1]
+        #     image_filename = f"{secrets.token_hex(8)}{ext}"
+        #     path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
+        #     os.makedirs(os.path.dirname(path), exist_ok=True)
+        #     image_file.save(path)
+
 
         new_customer = Customer(
             name=name,
@@ -274,11 +235,20 @@ def register_customer():
             number=number,
             gmail=gmail,
             secret_key=secret_key,
-            image=image_filename
+            image=None
         )
         db.session.add(new_customer)
         db.session.commit()
-        place_order()
+
+
+        if image_file and allowed_file(image_file.filename):
+            filename = f"{new_customer.c_id}.png"
+            image_path = os.path.join(app.root_path, 'static', 'profile', filename)  # <-- just added 'profile'
+            os.makedirs(os.path.dirname(image_path), exist_ok=True)
+            image_file.save(image_path)
+            new_customer.image = filename
+            db.session.commit()
+
         return redirect(url_for("checkout_page", c_id= new_customer.c_id))
     
     except Exception as e:
@@ -288,11 +258,48 @@ def register_customer():
 
 
 
-@app.route("/checkout/<int:c_id>")
+@app.route("/checkout/<int:c_id>", methods=["GET", "POST"])
 def checkout_page(c_id):
     customer = Customer.query.get_or_404(c_id)
+    cart = session.get('cart', {})
+    cart_items = []
+    total = Decimal("0.00")
 
-    # Get cart from session
+    for product_id_str, qty in cart.items():
+        product = Product.query.get(int(product_id_str))
+        if product:
+            subtotal = product.price * qty
+            total += subtotal
+            cart_items.append({
+                'id': product.product_id,
+                'name': product.product_name,
+                'price': product.price,
+                'qty': qty,
+                'subtotal': subtotal
+            })
+
+    if request.method == "POST":
+        card_number = request.form.get("card_number")
+        exp_date = request.form.get("exp_date")
+        cvv = request.form.get("cvv")
+
+        if not card_number or not exp_date or not cvv:
+            flash("Please fill all payment details", "error")
+        else:
+            flash("Payment successful (Demo)", "success")
+            
+
+            place_order(c_id)
+            return redirect(url_for("track_page",c_id=c_id))
+
+    return render_template("checkout.html", customer=customer, cart=cart_items, total=total)
+
+
+@app.route("/tract_order/<int:c_id>", methods=["GET", "POST"])
+def track_page(c_id):
+    customer = Customer.query.get_or_404(c_id)
+
+    # Get cart from session (if you want to show current cart summary)
     cart = session.get('cart', {})
     cart_items = []
     total = Decimal("0.00")
@@ -316,8 +323,29 @@ def checkout_page(c_id):
                 'subtotal': subtotal
             })
 
-    # Get all orders
-    orders = Orders.query.filter_by(c_id=c_id).all()
+    # Get all orders for this customer
+    orders_raw = Orders.query.filter_by(c_id=c_id).all()
+
+    orders = []
+    for order in orders_raw:
+        product = Product.query.get(order.product_id)
+
+        # Fetch the latest history record for this product & order (if your history tracks per order)
+        # If History links only to product, this will fetch the latest status for that product in general.
+        # You might want to consider adding order_id in History for more precise tracking.
+        history = History.query.filter_by(product_id=order.product_id).order_by(History.time_order.desc()).first()
+        status = history.status if history else "Unknown"
+
+        orders.append({
+            'id': order.id,
+            'order_id': order.order_id,
+            'product_name': product.product_name if product else "Unknown",
+            'image': product.image if product else None,
+            'order_time': order.order_time,
+            'status': status,
+            'price': order.price,
+            'quantity': order.product_quantity
+        })
 
     return render_template(
         "track_orders.html",
@@ -327,6 +355,37 @@ def checkout_page(c_id):
         orders=orders
     )
 
+
+
+@app.route('/cancel_order/<int:order_id>', methods=['POST'])
+def cancel_order(order_id):
+    order = Orders.query.get_or_404(order_id)
+
+    # Check if order is already delivered or cancelled
+    # You may want to prevent cancelling delivered orders
+    history = History.query.filter_by(product_id=order.product_id).order_by(History.time_order.desc()).first()
+    if history and history.status == 'Delivered':
+        flash("Delivered orders cannot be cancelled.", "warning")
+        return redirect(url_for('track_page', c_id=order.c_id))
+
+    # Update status in History or create new cancelled history entry
+    if history:
+        history.status = 'Cancelled'
+        db.session.commit()
+    else:
+        # create new history record if none exist
+        new_history = History(
+            product_id=order.product_id,
+            time_order=order.order_time,
+            time_delivery=None,
+            status='Cancelled',
+            price=order.price
+        )
+        db.session.add(new_history)
+        db.session.commit()
+
+    flash("Order cancelled successfully.", "success")
+    return redirect(url_for('track_page', c_id=order.c_id))
 # -------------------------------- Admin: Product Management --------------------------------
 
 @app.route("/admin/manage-products")

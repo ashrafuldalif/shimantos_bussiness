@@ -1,36 +1,122 @@
-<!-- ORDER LIST -->
-<h2 class="text-2xl font-semibold mb-4">All Orders</h2>
-{% set has_orders = false %}
-{% for item in orders %}
-  {% if item.status != 'Delivered' %}
-    {% if not has_orders %}{% set has_orders = true %}{% endif %}
-    <div class="bg-white shadow p-5 rounded border border-gray-200 mb-4">
-      <p class="font-semibold text-lg mb-1">Product: {{ item.product_name }}</p>
-      <p><strong>Order Time:</strong> {{ item.order_time.strftime('%Y-%m-%d %H:%M') }}</p>
-      <p><strong>Status:</strong> <span class="text-yellow-600 font-medium">{{ item.status }}</span></p>
-      <p><strong>Price:</strong> {{ item.price }} tk</p>
-    </div>
-  {% endif %}
-{% endfor %}
-{% if not has_orders %}
-  <p class="text-gray-500">No active orders.</p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Tracking - {{ customer.name }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans leading-relaxed text-gray-800">
 
+  <div class="max-w-4xl mx-auto px-6 py-10">
+    <h1 class="text-4xl font-extrabold mb-10 text-center text-indigo-700">
+      Order Tracking for <span class="underline decoration-indigo-500">{{ customer.name }}</span>
+    </h1>
 
-<!-- ORDER HISTORY -->
-<h2 class="text-2xl font-semibold mt-10 mb-4">Order History</h2>
-{% set has_history = false %}
-{% for item in orders %}
-  {% if item.status == 'Delivered' %}
-    {% if not has_history %}{% set has_history = true %}{% endif %}
-    <div class="bg-gray-50 shadow p-5 rounded border border-gray-200 mb-4">
-      <p class="font-semibold text-lg mb-1">Product: {{ item.product_name }}</p>
-      <p><strong>Order Time:</strong> {{ item.order_time.strftime('%Y-%m-%d %H:%M') }}</p>
-      <p><strong>Status:</strong> <span class="text-green-600 font-medium">{{ item.status }}</span></p>
-      <p><strong>Price:</strong> {{ item.price }} tk</p>
-    </div>
-  {% endif %}
-{% endfor %}
-{% if not has_history %}
-  <p class="text-gray-500">No past orders.</p>
-{% endif %}
+    <!-- ACTIVE ORDERS -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6 border-b-2 border-indigo-400 pb-2">Active Orders</h2>
+
+      {% set has_orders = false %}
+      {% for item in orders %}
+        {% if item.status != 'Delivered' and item.status != 'Cancelled' %}
+          {% if not has_orders %}{% set has_orders = true %}{% endif %}
+          <div
+            class="bg-white shadow-lg rounded-lg border border-gray-300 mb-6 flex justify-between items-center p-6 hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center space-x-6">
+              <img
+                src="{{ url_for('static', filename='images/' ~ (item.image if item.image else 'default-product.png')) }}"
+                alt="{{ item.product_name or 'Product Image' }}"
+                class="w-24 h-24 object-cover rounded-md shadow" />
+              <div>
+                <p class="text-2xl font-semibold text-indigo-900 mb-1">Product: {{ item.product_name }}</p>
+                <p class="text-gray-600 mb-1">
+                  <strong>Order Time:</strong>
+                  {{ item.order_time.strftime('%Y-%m-%d %H:%M') if item.order_time else 'N/A' }}
+                </p>
+                <p class="mb-1">
+                  <strong>Status:</strong>
+                  <span class="text-yellow-600 font-semibold tracking-wide">{{ item.status }}</span>
+                </p>
+                <p class="text-lg font-medium text-gray-700"><strong>Price:</strong> {{ item.price }} tk</p>
+                <p class="text-gray-700 mt-1"><strong>Quantity:</strong> {{ item.quantity }}</p>
+              </div>
+            </div>
+            <div>
+              <form method="post" action="{{ url_for('cancel_order', order_id=item.id) }}">
+                {# Include CSRF token here if you use Flask-WTF #}
+                <button type="submit"
+                  class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md transition duration-200">
+                  Cancel Order
+                </button>
+              </form>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% if not has_orders %}
+        <p class="text-center text-gray-500 italic text-lg">No active orders.</p>
+      {% endif %}
+    </section>
+
+    <!-- ORDER HISTORY -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6 border-b-2 border-green-400 pb-2">Order History</h2>
+
+      {% set has_history = false %}
+      {% for item in orders %}
+        {% if item.status == 'Delivered' %}
+          {% if not has_history %}{% set has_history = true %}{% endif %}
+          <div
+            class="bg-green-50 shadow rounded-lg border border-green-300 mb-6 p-6 text-green-900 hover:bg-green-100 transition-colors duration-300 flex items-center space-x-6">
+            <img
+              src="{{ url_for('static', filename='images/' ~ (item.image if item.image else 'default-product.png')) }}"
+              alt="{{ item.product_name or 'Product Image' }}"
+              class="w-20 h-20 object-cover rounded-md shadow" />
+            <div>
+              <p class="text-xl font-semibold mb-1">Product: {{ item.product_name }}</p>
+              <p><strong>Order Time:</strong> {{ item.order_time.strftime('%Y-%m-%d %H:%M') if item.order_time else 'N/A' }}</p>
+              <p><strong>Status:</strong> <span class="font-medium">{{ item.status }}</span></p>
+              <p><strong>Price:</strong> {{ item.price }} tk</p>
+              <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% if not has_history %}
+        <p class="text-center text-gray-500 italic text-lg">No past orders.</p>
+      {% endif %}
+    </section>
+
+    <!-- CANCELLED ORDERS -->
+    <section>
+      <h2 class="text-3xl font-semibold mb-6 border-b-2 border-red-400 pb-2">Cancelled Orders</h2>
+
+      {% set has_cancelled = false %}
+      {% for item in orders %}
+        {% if item.status == 'Cancelled' %}
+          {% if not has_cancelled %}{% set has_cancelled = true %}{% endif %}
+          <div
+            class="bg-red-50 shadow rounded-lg border border-red-300 mb-6 p-6 text-red-900 hover:bg-red-100 transition-colors duration-300 flex items-center space-x-6">
+            <img
+              src="{{ url_for('static', filename='images/' ~ (item.image if item.image else 'default-product.png')) }}"
+              alt="{{ item.product_name or 'Product Image' }}"
+              class="w-20 h-20 object-cover rounded-md shadow" />
+            <div>
+              <p class="text-xl font-semibold mb-1">Product: {{ item.product_name }}</p>
+              <p><strong>Order Time:</strong> {{ item.order_time.strftime('%Y-%m-%d %H:%M') if item.order_time else 'N/A' }}</p>
+              <p><strong>Status:</strong> <span class="font-medium">{{ item.status }}</span></p>
+              <p><strong>Price:</strong> {{ item.price }} tk</p>
+              <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% if not has_cancelled %}
+        <p class="text-center text-gray-500 italic text-lg">No cancelled orders.</p>
+      {% endif %}
+    </section>
+  </div>
+
+</body>
+</html>

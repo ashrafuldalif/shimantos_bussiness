@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100">
+
+  <div class="bg-white shadow-md p-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+    <img src="{{ url_for('static', filename=( 'profile/' + customer.image if customer.image else 'images/default_profile.png')) }}"
+        alt="Profile"
+        class="w-16 h-16 rounded-full object-cover">
+
+        <div>
+        <p class="text-lg font-semibold">{{ customer.name }}</p>
+        <p class="text-sm text-gray-500">{{ customer.gmail }}</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-6">
+      <a href="/" class="text-blue-600 hover:underline">Home</a>
+      <a href="/shop" class="text-blue-600 hover:underline">Shop</a>
+      <a href="/contact" class="text-blue-600 hover:underline">Contact</a>
+      <div class="relative">
+
+        <a href="{{ url_for('cart') }}"> 
+        <img src="../static/iamges/Basket_alt_3_dark.png" class="w-6 h-6 material-icons text-2x1">
+        </a> 
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">{{ cart | length }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto mt-8 bg-white p-6 rounded shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Checkout</h2>
+
+    <!-- Cart Summary -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-2">Cart Summary</h3>
+      <table class="w-full border">
+        <thead>
+          <tr class="bg-gray-100 text-left">
+            <th class="p-2 border">Product</th>
+            <th class="p-2 border">Price</th>
+            <th class="p-2 border">Qty</th>
+            <th class="p-2 border">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+          <tr>
+            <td class="p-2 border">{{ item.name }}</td>
+            <td class="p-2 border">Tk {{ item.price }}</td>
+            <td class="p-2 border">{{ item.qty }}</td>
+            <td class="p-2 border">Tk {{ item.subtotal }}</td>
+          </tr>
+          {% endfor %}
+          <tr class="font-bold">
+            <td colspan="3" class="p-2 border text-right">Total:</td>
+            <td class="p-2 border">Tk {{ total }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Card Payment Form -->
+    <form method="POST" class="space-y-4">
+      <h3 class="text-xl font-semibold">Card Information</h3>
+      <div>
+        <label class="block font-medium">Card Number</label>
+        <input type="text" name="card_number" class="w-full border p-2 rounded" required />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium">Expiry Date</label>
+          <input type="text" name="exp_date" placeholder="MM/YY" class="w-full border p-2 rounded" required />
+        </div>
+        <div>
+          <label class="block font-medium">CVV</label>
+          <input type="password" name="cvv" class="w-full border p-2 rounded" required />
+        </div>
+      </div>
+      <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+        Pay Tk {{ total }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-10 p-6">
+    <h4 class="text-lg font-bold mb-2">CONTACT US</h4>
+    <div class="space-y-1 text-sm">
+      <p>📧 {{ customer.gmail }}</p>
+      <p>📞 {{ customer.number }}</p>
+      <p>📍 Sadar Hospital Road, Munshigonj, Dhaka, Bangladesh</p>
+    </div>
+  </footer>
+
+</body>
+</html>
